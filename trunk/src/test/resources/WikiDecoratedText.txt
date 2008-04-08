@@ -1,0 +1,22 @@
+'''bold'''
+
+''italic''
+
+_underline_
+
+'''''bold italic'''''
+
+_'''bold underline'''_
+
+'''_underline bold_'''
+
+_''underline italic''_
+
+''_italic underline_''
+
+_'''''underline bold italic'''''_
+
+'''''_bold italic underline_'''''
+
+''_'''italic underline bold'''_''
+
