@@ -1,19 +1,11 @@
 package code.lucamarrocco.wiki.engine;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
-import code.lucamarrocco.wiki.engine.WikiEngine;
-
 import junit.framework.TestCase;
 
-public class WikiEngineListTest extends TestCase {
+public class WikiListTest extends TestCase {
 	public void assertHtml(String html, String content) throws Exception {
-		InputStream inputStream = new ByteArrayInputStream(content.getBytes());
-
-		WikiEngine wikiEngine = new WikiEngine();
-
-		assertEquals(html, wikiEngine.html(inputStream));
+		Wiki wikiEngine = new Wiki();
+		assertEquals(html, wikiEngine.wiki(content));
 	}
 
 	public void testParserOrderedList() throws Exception {

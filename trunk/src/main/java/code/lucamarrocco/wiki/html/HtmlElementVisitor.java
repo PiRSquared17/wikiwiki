@@ -35,6 +35,12 @@ public class HtmlElementVisitor implements Visitor<HtmlElement> {
 
 	public static final String U = "u";
 
+	public static final String UL = "ul";
+
+	public static final String OL = "ol";
+
+	public static final String LI = "li";
+
 	private String h(int level) {
 		if (level == 1)
 			return H1;
@@ -48,6 +54,15 @@ public class HtmlElementVisitor implements Visitor<HtmlElement> {
 			return H5;
 
 		return null;
+	}
+
+	private String l(int type) {
+		if (type == List.ORDERED_LIST)
+			return OL;
+		if (type == List.UNORDERED_LIST)
+			return UL;
+
+		return UL;
 	}
 
 	public void visit(BreakLine breakLine, HtmlElement htmlElement) {
@@ -96,19 +111,6 @@ public class HtmlElementVisitor implements Visitor<HtmlElement> {
 						.addChild());
 	}
 
-	public static final String UL = "ul";
-
-	public static final String OL = "ol";
-
-	private String l(int type) {
-		if (type == List.ORDERED_LIST)
-			return OL;
-		if (type == List.UNORDERED_LIST)
-			return UL;
-
-		return UL;
-	}
-
 	public void visit(List list, HtmlElement htmlElement) {
 		htmlElement.setName(l(list.getType()));
 
@@ -122,8 +124,6 @@ public class HtmlElementVisitor implements Visitor<HtmlElement> {
 	public void visit(ListItem listItem, HtmlElement htmlElement) {
 		listItem.getText().accept(this, htmlElement.setName(LI).addChild());
 	}
-
-	public static final String LI = "li";
 
 	public void visit(Node node, HtmlElement htmlElement) {
 		if (node instanceof BreakLine) {
