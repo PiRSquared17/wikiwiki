@@ -6,14 +6,6 @@ public class DefaultLinkText extends AbstractBodyDeclaration implements
 
 	private Text text;
 
-	public String getValue() {
-		return text.getValue();
-	}
-
-	public Text setValue(String value) {
-		return text.setValue(value);
-	}
-
 	public <A> void accept(Visitor<A> visitor, A arg) {
 		visitor.visit((LinkText) this, arg);
 	}
@@ -26,6 +18,10 @@ public class DefaultLinkText extends AbstractBodyDeclaration implements
 		return text;
 	}
 
+	public String getValue() {
+		return text.getValue();
+	}
+
 	public LinkText setHref(String href) {
 		this.href = href;
 
@@ -36,5 +32,9 @@ public class DefaultLinkText extends AbstractBodyDeclaration implements
 		this.text = text;
 
 		return this;
+	}
+
+	public Text setValue(String value) {
+		return text.setValue(value);
 	}
 }

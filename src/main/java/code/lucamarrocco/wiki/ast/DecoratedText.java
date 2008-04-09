@@ -13,11 +13,11 @@ public interface DecoratedText extends BodyDeclaration, Text {
 
 	final int UNDERLINE = 4;
 
-	DecoratedText setText(Text text);
-
-	DecoratedText setType(int type);
-
 	Text getText();
 
 	int getType();
+
+	DecoratedText setText(Text text);
+
+	DecoratedText setType(int type);
 }

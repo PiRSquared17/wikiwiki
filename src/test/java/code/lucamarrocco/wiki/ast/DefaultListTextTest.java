@@ -3,12 +3,6 @@ package code.lucamarrocco.wiki.ast;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 
-import code.lucamarrocco.wiki.ast.BodyDeclaration;
-import code.lucamarrocco.wiki.ast.DefaultList;
-import code.lucamarrocco.wiki.ast.List;
-import code.lucamarrocco.wiki.ast.ListItem;
-import code.lucamarrocco.wiki.ast.Node;
-
 public class DefaultListTextTest extends MockObjectTestCase {
 	private Mock mockListItem = mock(ListItem.class);
 

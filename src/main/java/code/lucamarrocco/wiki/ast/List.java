@@ -11,7 +11,7 @@ public interface List extends ListItem {
 
 	java.util.List<ListItem> getListItems();
 
-	List setType(int type);
-
 	int getType();
+
+	List setType(int type);
 }

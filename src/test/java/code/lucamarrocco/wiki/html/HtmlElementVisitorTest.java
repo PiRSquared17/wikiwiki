@@ -1,8 +1,6 @@
 package code.lucamarrocco.wiki.html;
 
 import junit.framework.TestCase;
-
-
 import code.lucamarrocco.wiki.ast.BreakLine;
 import code.lucamarrocco.wiki.ast.Content;
 import code.lucamarrocco.wiki.ast.DecoratedText;
@@ -19,8 +17,6 @@ import code.lucamarrocco.wiki.ast.List;
 import code.lucamarrocco.wiki.ast.ListItem;
 import code.lucamarrocco.wiki.ast.Text;
 import code.lucamarrocco.wiki.ast.TitleText;
-import code.lucamarrocco.wiki.html.HtmlElement;
-import code.lucamarrocco.wiki.html.HtmlElementVisitor;
 
 public class HtmlElementVisitorTest extends TestCase {
 	private static final String VALUE = "value";

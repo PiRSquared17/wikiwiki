@@ -28,12 +28,6 @@ public class TokenMgrError extends Error {
 	static final int LOOP_DETECTED = 3;
 
 	/**
-	 * Indicates the reason why the exception is thrown. It will have one of the
-	 * above 4 values.
-	 */
-	int errorCode;
-
-	/**
 	 * Replaces unprintable characters by their espaced (or unicode escaped)
 	 * equivalents in the given string
 	 */
@@ -105,6 +99,30 @@ public class TokenMgrError extends Error {
 	}
 
 	/**
+	 * Indicates the reason why the exception is thrown. It will have one of the
+	 * above 4 values.
+	 */
+	int errorCode;
+
+	public TokenMgrError() {
+	}
+
+	/*
+	 * Constructors of various flavors follow.
+	 */
+
+	public TokenMgrError(boolean EOFSeen, int lexState, int errorLine,
+			int errorColumn, String errorAfter, char curChar, int reason) {
+		this(LexicalError(EOFSeen, lexState, errorLine, errorColumn,
+				errorAfter, curChar), reason);
+	}
+
+	public TokenMgrError(String message, int reason) {
+		super(message);
+		errorCode = reason;
+	}
+
+	/**
 	 * You can also modify the body of this method to customize your error
 	 * messages. For example, cases like LOOP_DETECTED and INVALID_LEXICAL_STATE
 	 * are not of end-users concern, so you can return something like :
@@ -115,23 +133,5 @@ public class TokenMgrError extends Error {
 	 */
 	public String getMessage() {
 		return super.getMessage();
-	}
-
-	/*
-	 * Constructors of various flavors follow.
-	 */
-
-	public TokenMgrError() {
-	}
-
-	public TokenMgrError(String message, int reason) {
-		super(message);
-		errorCode = reason;
-	}
-
-	public TokenMgrError(boolean EOFSeen, int lexState, int errorLine,
-			int errorColumn, String errorAfter, char curChar, int reason) {
-		this(LexicalError(EOFSeen, lexState, errorLine, errorColumn,
-				errorAfter, curChar), reason);
 	}
 }

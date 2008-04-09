@@ -27,6 +27,10 @@ public class DefaultList extends AbstractBodyDeclaration implements List {
 		return listItems;
 	}
 
+	public Text getText() {
+		return text;
+	}
+
 	public int getType() {
 		return type;
 	}
@@ -35,18 +39,14 @@ public class DefaultList extends AbstractBodyDeclaration implements List {
 		this.listItems = listItems;
 	}
 
-	public List setType(int type) {
-		this.type = type;
+	public ListItem setText(Text text) {
+		this.text = text;
 
 		return this;
 	}
 
-	public Text getText() {
-		return text;
-	}
-
-	public ListItem setText(Text text) {
-		this.text = text;
+	public List setType(int type) {
+		this.type = type;
 
 		return this;
 	}

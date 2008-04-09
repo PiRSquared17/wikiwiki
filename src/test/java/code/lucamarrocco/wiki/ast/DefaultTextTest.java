@@ -1,10 +1,5 @@
 package code.lucamarrocco.wiki.ast;
 
-import code.lucamarrocco.wiki.ast.BodyDeclaration;
-import code.lucamarrocco.wiki.ast.DefaultText;
-import code.lucamarrocco.wiki.ast.Node;
-import code.lucamarrocco.wiki.ast.Text;
-
 import junit.framework.TestCase;
 
 public class DefaultTextTest extends TestCase {

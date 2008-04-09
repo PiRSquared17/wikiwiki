@@ -12,44 +12,6 @@ package code.lucamarrocco.wiki.parser;
 public class ParseException extends Exception {
 
 	/**
-	 * This constructor is used by the method "generateParseException" in the
-	 * generated parser. Calling this constructor generates a new object of this
-	 * type with the fields "currentToken", "expectedTokenSequences", and
-	 * "tokenImage" set. The boolean flag "specialConstructor" is also set to
-	 * true to indicate that this constructor was used to create this object.
-	 * This constructor calls its super class with the empty string to force the
-	 * "toString" method of parent class "Throwable" to print the error message
-	 * in the form: ParseException: <result of getMessage>
-	 */
-	public ParseException(Token currentTokenVal,
-			int[][] expectedTokenSequencesVal, String[] tokenImageVal) {
-		super("");
-		specialConstructor = true;
-		currentToken = currentTokenVal;
-		expectedTokenSequences = expectedTokenSequencesVal;
-		tokenImage = tokenImageVal;
-	}
-
-	/**
-	 * The following constructors are for use by you for whatever purpose you
-	 * can think of. Constructing the exception in this manner makes the
-	 * exception behave in the normal way - i.e., as documented in the class
-	 * "Throwable". The fields "errorToken", "expectedTokenSequences", and
-	 * "tokenImage" do not contain relevant information. The JavaCC generated
-	 * code does not use these constructors.
-	 */
-
-	public ParseException() {
-		super();
-		specialConstructor = false;
-	}
-
-	public ParseException(String message) {
-		super(message);
-		specialConstructor = false;
-	}
-
-	/**
 	 * This variable determines which constructor was used to create this object
 	 * and thereby affects the semantics of the "getMessage" method (see below).
 	 */
@@ -75,6 +37,98 @@ public class ParseException extends Exception {
 	 * generated ...Constants interface.
 	 */
 	public String[] tokenImage;
+
+	/**
+	 * The end of line string for this machine.
+	 */
+	protected String eol = System.getProperty("line.separator", "\n");
+
+	/**
+	 * The following constructors are for use by you for whatever purpose you
+	 * can think of. Constructing the exception in this manner makes the
+	 * exception behave in the normal way - i.e., as documented in the class
+	 * "Throwable". The fields "errorToken", "expectedTokenSequences", and
+	 * "tokenImage" do not contain relevant information. The JavaCC generated
+	 * code does not use these constructors.
+	 */
+
+	public ParseException() {
+		super();
+		specialConstructor = false;
+	}
+
+	public ParseException(String message) {
+		super(message);
+		specialConstructor = false;
+	}
+
+	/**
+	 * This constructor is used by the method "generateParseException" in the
+	 * generated parser. Calling this constructor generates a new object of this
+	 * type with the fields "currentToken", "expectedTokenSequences", and
+	 * "tokenImage" set. The boolean flag "specialConstructor" is also set to
+	 * true to indicate that this constructor was used to create this object.
+	 * This constructor calls its super class with the empty string to force the
+	 * "toString" method of parent class "Throwable" to print the error message
+	 * in the form: ParseException: <result of getMessage>
+	 */
+	public ParseException(Token currentTokenVal,
+			int[][] expectedTokenSequencesVal, String[] tokenImageVal) {
+		super("");
+		specialConstructor = true;
+		currentToken = currentTokenVal;
+		expectedTokenSequences = expectedTokenSequencesVal;
+		tokenImage = tokenImageVal;
+	}
+
+	/**
+	 * Used to convert raw characters to their escaped version when these raw
+	 * version cannot be used as part of an ASCII string literal.
+	 */
+	protected String add_escapes(String str) {
+		StringBuffer retval = new StringBuffer();
+		char ch;
+		for (int i = 0; i < str.length(); i++) {
+			switch (str.charAt(i)) {
+			case 0:
+				continue;
+			case '\b':
+				retval.append("\\b");
+				continue;
+			case '\t':
+				retval.append("\\t");
+				continue;
+			case '\n':
+				retval.append("\\n");
+				continue;
+			case '\f':
+				retval.append("\\f");
+				continue;
+			case '\r':
+				retval.append("\\r");
+				continue;
+			case '\"':
+				retval.append("\\\"");
+				continue;
+			case '\'':
+				retval.append("\\\'");
+				continue;
+			case '\\':
+				retval.append("\\\\");
+				continue;
+			default:
+				if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
+					String s = "0000" + Integer.toString(ch, 16);
+					retval.append("\\u"
+							+ s.substring(s.length() - 4, s.length()));
+				} else {
+					retval.append(ch);
+				}
+				continue;
+			}
+		}
+		return retval.toString();
+	}
 
 	/**
 	 * This method has the standard behavior when this object has been created
@@ -126,60 +180,6 @@ public class ParseException extends Exception {
 		}
 		retval += expected.toString();
 		return retval;
-	}
-
-	/**
-	 * The end of line string for this machine.
-	 */
-	protected String eol = System.getProperty("line.separator", "\n");
-
-	/**
-	 * Used to convert raw characters to their escaped version when these raw
-	 * version cannot be used as part of an ASCII string literal.
-	 */
-	protected String add_escapes(String str) {
-		StringBuffer retval = new StringBuffer();
-		char ch;
-		for (int i = 0; i < str.length(); i++) {
-			switch (str.charAt(i)) {
-			case 0:
-				continue;
-			case '\b':
-				retval.append("\\b");
-				continue;
-			case '\t':
-				retval.append("\\t");
-				continue;
-			case '\n':
-				retval.append("\\n");
-				continue;
-			case '\f':
-				retval.append("\\f");
-				continue;
-			case '\r':
-				retval.append("\\r");
-				continue;
-			case '\"':
-				retval.append("\\\"");
-				continue;
-			case '\'':
-				retval.append("\\\'");
-				continue;
-			case '\\':
-				retval.append("\\\\");
-				continue;
-			default:
-				if ((ch = str.charAt(i)) < 0x20 || ch > 0x7e) {
-					String s = "0000" + Integer.toString(ch, 16);
-					retval.append("\\u"
-							+ s.substring(s.length() - 4, s.length()));
-				} else {
-					retval.append(ch);
-				}
-				continue;
-			}
-		}
-		return retval.toString();
 	}
 
 }
