@@ -17,11 +17,8 @@ public class DefaultDecoratedTextTest extends MockObjectTestCase {
 		DefaultDecoratedText decoratedText = new DefaultDecoratedText();
 
 		assertNotNull(decoratedText);
-
 		assertTrue(decoratedText instanceof Node);
-
 		assertTrue(decoratedText instanceof DecoratedText);
-
 		assertTrue(decoratedText instanceof BodyDeclaration);
 	}
 
@@ -29,7 +26,6 @@ public class DefaultDecoratedTextTest extends MockObjectTestCase {
 		DefaultDecoratedText decoratedText = new DefaultDecoratedText();
 
 		assertEquals(decoratedText, decoratedText.setText(TEXT));
-
 		assertEquals(TEXT, decoratedText.getText());
 	}
 

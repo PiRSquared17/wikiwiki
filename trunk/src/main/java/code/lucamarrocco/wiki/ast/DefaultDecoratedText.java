@@ -1,7 +1,6 @@
 package code.lucamarrocco.wiki.ast;
 
-public class DefaultDecoratedText extends AbstractBodyDeclaration implements
-		DecoratedText {
+public class DefaultDecoratedText extends AbstractBodyDeclaration implements DecoratedText {
 	private Text text;
 
 	private int type = DecoratedText.NORMAL;

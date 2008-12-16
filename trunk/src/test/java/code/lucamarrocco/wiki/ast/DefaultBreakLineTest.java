@@ -7,11 +7,8 @@ public class DefaultBreakLineTest extends TestCase {
 		DefaultBreakLine text = new DefaultBreakLine();
 
 		assertNotNull(text);
-
 		assertTrue(text instanceof Node);
-
 		assertTrue(text instanceof BreakLine);
-
 		assertTrue(text instanceof BodyDeclaration);
 	}
 }

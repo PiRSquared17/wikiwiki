@@ -9,11 +9,8 @@ public class DefaultTextTest extends TestCase {
 		DefaultText text = new DefaultText();
 
 		assertNotNull(text);
-
 		assertTrue(text instanceof Node);
-
 		assertTrue(text instanceof Text);
-
 		assertTrue(text instanceof BodyDeclaration);
 	}
 
@@ -21,7 +18,6 @@ public class DefaultTextTest extends TestCase {
 		DefaultText text = new DefaultText();
 
 		assertEquals(text, text.setValue(VALUE));
-
 		assertEquals(VALUE, text.getValue());
 	}
 }

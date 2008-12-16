@@ -1,8 +1,9 @@
 package code.lucamarrocco.wiki.engine;
 
-import static code.lucamarrocco.wiki.engine.Wiki.wiki;
-import org.junit.Test;
-import static org.junit.Assert.assertEquals;
+import static code.lucamarrocco.wiki.engine.Wiki.*;
+import static org.junit.Assert.*;
+
+import org.junit.*;
 
 public class WikiTest {
 	private void assertThat(String actual, String expected) {
@@ -32,6 +33,18 @@ public class WikiTest {
 	}
 
 	@Test
+	public void testParserLbracketUrlDescriptionRbracket() throws Exception {
+		assertThat(wiki("[http://www.google.it google]"), is("<a href=\"http://www.google.it\">google</a>"));
+		assertThat(wiki("[http://www.google.it google"), is("<a href=\"http://www.google.it\">google</a>"));
+	}
+
+	@Test
+	public void testParserLbracketUrlRbracket() throws Exception {
+		assertThat(wiki("[http://www.google.it]"), is("<a href=\"http://www.google.it\">http://www.google.it</a>"));
+		assertThat(wiki("[http://www.google.it"), is("<a href=\"http://www.google.it\">http://www.google.it</a>"));
+	}
+
+	@Test
 	public void testParserString() throws Exception {
 		assertThat(wiki("some word with comma, semicolon; dot. etc @$%^^&(("), is("some word with comma, semicolon; dot. etc @$%^^&(("));
 	}
@@ -58,18 +71,6 @@ public class WikiTest {
 	public void testParserUnderline() throws Exception {
 		assertThat(wiki("_value_"), is("<u>value</u>"));
 		assertThat(wiki("_value"), is("<u>value</u>"));
-	}
-
-	@Test
-	public void testParserLbracketUrlDescriptionRbracket() throws Exception {
-		assertThat(wiki("[http://www.google.it google]"), is("<a href=\"http://www.google.it\">google</a>"));
-		assertThat(wiki("[http://www.google.it google"), is("<a href=\"http://www.google.it\">google</a>"));
-	}
-
-	@Test
-	public void testParserLbracketUrlRbracket() throws Exception {
-		assertThat(wiki("[http://www.google.it]"), is("<a href=\"http://www.google.it\">http://www.google.it</a>"));
-		assertThat(wiki("[http://www.google.it"), is("<a href=\"http://www.google.it\">http://www.google.it</a>"));
 	}
 
 	@Test

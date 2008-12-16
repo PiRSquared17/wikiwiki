@@ -17,11 +17,8 @@ public class DefaultListTextTest extends MockObjectTestCase {
 		DefaultList listText = new DefaultList();
 
 		assertNotNull(listText);
-
 		assertTrue(listText instanceof Node);
-
 		assertTrue(listText instanceof List);
-
 		assertTrue(listText instanceof BodyDeclaration);
 	}
 
@@ -29,7 +26,6 @@ public class DefaultListTextTest extends MockObjectTestCase {
 		DefaultList listText = new DefaultList();
 
 		assertEquals(listText, listText.addListItem(LIST_ITEM));
-
 		assertEquals(LIST_ITEM, listText.getListItems().get(0));
 	}
 

@@ -30,8 +30,7 @@ public class HtmlElementVisitorTest extends TestCase {
 
 		htmlElement = new HtmlElement();
 
-		DecoratedText node = new DefaultDecoratedText().setType(type).setText(
-				new DefaultText().setValue(VALUE));
+		DecoratedText node = new DefaultDecoratedText().setType(type).setText(new DefaultText().setValue(VALUE));
 
 		node.accept(htmlElementVisitor, htmlElement);
 
@@ -43,8 +42,7 @@ public class HtmlElementVisitorTest extends TestCase {
 
 		htmlElement = new HtmlElement();
 
-		TitleText node = new DefaultTitleText().setLevel(level).setText(
-				new DefaultText().setValue(VALUE));
+		TitleText node = new DefaultTitleText().setLevel(level).setText(new DefaultText().setValue(VALUE));
 
 		node.accept(htmlElementVisitor, htmlElement);
 
@@ -78,10 +76,7 @@ public class HtmlElementVisitorTest extends TestCase {
 	}
 
 	public void testVisitContent() {
-		Content node = new DefaultContent().addBodyDeclaration(
-				new DefaultText().setValue(VALUE)).addBodyDeclaration(
-				new DefaultBreakLine()).addBodyDeclaration(
-				new DefaultText().setValue(VALUE));
+		Content node = new DefaultContent().addBodyDeclaration(new DefaultText().setValue(VALUE)).addBodyDeclaration(new DefaultBreakLine()).addBodyDeclaration(new DefaultText().setValue(VALUE));
 
 		node.accept(htmlElementVisitor, htmlElement);
 
@@ -99,8 +94,7 @@ public class HtmlElementVisitorTest extends TestCase {
 	}
 
 	public void testVisitLinkText() {
-		LinkText node = new DefaultLinkText().setHref(VALUE).setText(
-				new DefaultText().setValue(VALUE));
+		LinkText node = new DefaultLinkText().setHref(VALUE).setText(new DefaultText().setValue(VALUE));
 
 		node.accept(htmlElementVisitor, htmlElement);
 
@@ -110,35 +104,23 @@ public class HtmlElementVisitorTest extends TestCase {
 	}
 
 	public void testVisitListText() {
-		List orderedList = new DefaultList().setType(List.ORDERED_LIST)
-				.addListItem(
-						new DefaultListItem().setText(new DefaultText()
-								.setValue(VALUE))).addListItem(
-						new DefaultListItem().setText(new DefaultText()
-								.setValue(VALUE)));
-		List unorderedList = new DefaultList().setType(List.UNORDERED_LIST)
-				.addListItem(
-						new DefaultListItem().setText(new DefaultText()
-								.setValue(VALUE))).addListItem(
-						new DefaultListItem().setText(new DefaultText()
-								.setValue(VALUE)));
+		List orderedList = new DefaultList().setType(List.ORDERED_LIST).addListItem(new DefaultListItem().setText(new DefaultText().setValue(VALUE))).addListItem(
+				new DefaultListItem().setText(new DefaultText().setValue(VALUE)));
+		List unorderedList = new DefaultList().setType(List.UNORDERED_LIST).addListItem(new DefaultListItem().setText(new DefaultText().setValue(VALUE))).addListItem(
+				new DefaultListItem().setText(new DefaultText().setValue(VALUE)));
 
 		htmlElement = new HtmlElement();
 		orderedList.accept(htmlElementVisitor, htmlElement);
-		assertEquals("<ol><li>value</li><li>value</li></ol>", htmlElement
-				.toString());
+		assertEquals("<ol><li>value</li><li>value</li></ol>", htmlElement.toString());
 
 		htmlElement = new HtmlElement();
 		unorderedList.accept(htmlElementVisitor, htmlElement);
-		assertEquals("<ul><li>value</li><li>value</li></ul>", htmlElement
-				.toString());
+		assertEquals("<ul><li>value</li><li>value</li></ul>", htmlElement.toString());
 
 		htmlElement = new HtmlElement();
 		orderedList.addListItem((ListItem) unorderedList);
 		orderedList.accept(htmlElementVisitor, htmlElement);
-		assertEquals(
-				"<ol><li>value</li><li>value</li><ul><li>value</li><li>value</li></ul></ol>",
-				htmlElement.toString());
+		assertEquals("<ol><li>value</li><li>value</li><ul><li>value</li><li>value</li></ul></ol>", htmlElement.toString());
 	}
 
 	public void testVisitTitleText() {

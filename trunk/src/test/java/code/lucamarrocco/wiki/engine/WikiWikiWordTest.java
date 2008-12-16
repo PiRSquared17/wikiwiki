@@ -1,11 +1,12 @@
 package code.lucamarrocco.wiki.engine;
 
-import junit.framework.TestCase;
+import junit.framework.*;
 
 public class WikiWikiWordTest extends TestCase {
 	public void assertHtml(String html, String content) throws Exception {
 		assertEquals(html, new Wiki().wiki(content));
 	}
+
 	public void testParserLbracketWikiWordDescriptionRbracket() throws Exception {
 		String html = "<a href=\"WikiWord\">some word that describe wiki word</a>";
 
@@ -32,8 +33,7 @@ public class WikiWikiWordTest extends TestCase {
 		assertHtml(html, "WikiWord AnotherWikiWord");
 	}
 
-	public void testParserWikiWordAndLbracketUrlDescriptionRbracket()
-			throws Exception {
+	public void testParserWikiWordAndLbracketUrlDescriptionRbracket() throws Exception {
 		String html = "<a href=\"WikiWord\">WikiWord</a><a href=\"WikiWord\">This is a Wiki Word description</a>";
 
 		assertHtml(html, "WikiWord [WikiWord This is a Wiki Word description]");

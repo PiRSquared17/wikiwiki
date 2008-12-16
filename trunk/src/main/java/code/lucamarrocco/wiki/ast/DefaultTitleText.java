@@ -1,7 +1,6 @@
 package code.lucamarrocco.wiki.ast;
 
-public class DefaultTitleText extends AbstractBodyDeclaration implements
-		TitleText {
+public class DefaultTitleText extends AbstractBodyDeclaration implements TitleText {
 	private int level;
 
 	private Text text;
