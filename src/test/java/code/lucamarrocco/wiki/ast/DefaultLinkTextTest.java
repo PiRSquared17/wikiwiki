@@ -12,11 +12,8 @@ public class DefaultLinkTextTest extends MockObjectTestCase {
 		DefaultLinkText link = new DefaultLinkText();
 
 		assertNotNull(link);
-
 		assertTrue(link instanceof Node);
-
 		assertTrue(link instanceof LinkText);
-
 		assertTrue(link instanceof BodyDeclaration);
 	}
 
@@ -24,7 +21,6 @@ public class DefaultLinkTextTest extends MockObjectTestCase {
 		DefaultLinkText link = new DefaultLinkText();
 
 		assertEquals(link, link.setText(TEXT));
-
 		assertEquals(TEXT, link.getText());
 	}
 }

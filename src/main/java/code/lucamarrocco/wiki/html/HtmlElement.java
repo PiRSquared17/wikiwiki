@@ -92,8 +92,7 @@ public class HtmlElement {
 			stringBuffer.append("\"");
 		}
 
-		boolean hasntChildren = getChildren().isEmpty()
-				&& StringUtils.isBlank(getValue());
+		boolean hasntChildren = getChildren().isEmpty() && StringUtils.isBlank(getValue());
 		boolean hasChildren = !hasntChildren;
 
 		if (hasntChildren) {

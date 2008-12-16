@@ -17,7 +17,7 @@ public class WikiListTest extends TestCase {
 
 	public void testParserOrderedListWithSomeListItem() throws Exception {
 		String html = "";
-		
+
 		html += "<ol>";
 		html += "<li>value</li>";
 		html += "<li>value</li>";
@@ -29,7 +29,7 @@ public class WikiListTest extends TestCase {
 
 	public void testParserOrderedListWithSomeNestedListItem() throws Exception {
 		String html = "";
-		
+
 		html += "<ol>";
 		html += "<li>value</li>";
 		html += "<ol>";
@@ -52,7 +52,7 @@ public class WikiListTest extends TestCase {
 
 	public void testParserUnorderedListWithSomeListItem() throws Exception {
 		String html = "";
-		
+
 		html += "<ul>";
 		html += "<li>value</li>";
 		html += "<li>value</li>";
@@ -64,7 +64,7 @@ public class WikiListTest extends TestCase {
 
 	public void testParserUnorderedListWithSomeNestedListItem() throws Exception {
 		String html = "";
-		
+
 		html += "<ul>";
 		html += "<li>value</li>";
 		html += "<ul>";

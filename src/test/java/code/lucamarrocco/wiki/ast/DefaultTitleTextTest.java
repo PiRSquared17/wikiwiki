@@ -14,11 +14,8 @@ public class DefaultTitleTextTest extends MockObjectTestCase {
 		DefaultTitleText title = new DefaultTitleText();
 
 		assertNotNull(title);
-
 		assertTrue(title instanceof Node);
-
 		assertTrue(title instanceof TitleText);
-
 		assertTrue(title instanceof BodyDeclaration);
 	}
 
@@ -26,7 +23,6 @@ public class DefaultTitleTextTest extends MockObjectTestCase {
 		DefaultTitleText title = new DefaultTitleText();
 
 		assertEquals(title, title.setLevel(LEVEL));
-
 		assertEquals(LEVEL, title.getLevel());
 	}
 
@@ -34,7 +30,6 @@ public class DefaultTitleTextTest extends MockObjectTestCase {
 		DefaultTitleText title = new DefaultTitleText();
 
 		assertEquals(title, title.setText(TEXT));
-
 		assertEquals(TEXT, title.getText());
 	}
 }

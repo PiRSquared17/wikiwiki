@@ -1,7 +1,6 @@
 package code.lucamarrocco.wiki.ast;
 
-public class DefaultLinkText extends AbstractBodyDeclaration implements
-		LinkText {
+public class DefaultLinkText extends AbstractBodyDeclaration implements LinkText {
 	private String href;
 
 	private Text text;

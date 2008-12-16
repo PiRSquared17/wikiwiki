@@ -42,25 +42,18 @@ public class HtmlElementVisitor implements Visitor<HtmlElement> {
 	public static final String LI = "li";
 
 	private String h(int level) {
-		if (level == 1)
-			return H1;
-		if (level == 2)
-			return H2;
-		if (level == 3)
-			return H3;
-		if (level == 4)
-			return H4;
-		if (level == 5)
-			return H5;
+		if (level == 1) return H1;
+		if (level == 2) return H2;
+		if (level == 3) return H3;
+		if (level == 4) return H4;
+		if (level == 5) return H5;
 
 		return null;
 	}
 
 	private String l(int type) {
-		if (type == List.ORDERED_LIST)
-			return OL;
-		if (type == List.UNORDERED_LIST)
-			return UL;
+		if (type == List.ORDERED_LIST) return OL;
+		if (type == List.UNORDERED_LIST) return UL;
 
 		return UL;
 	}
@@ -78,26 +71,22 @@ public class HtmlElementVisitor implements Visitor<HtmlElement> {
 		int type = decoratedText.getType();
 
 		if (type == DecoratedText.BOLD) {
-			decoratedText.getText().accept(this,
-					htmlElement.setName(B).addChild());
+			decoratedText.getText().accept(this, htmlElement.setName(B).addChild());
 			return;
 		}
 
 		if (type == DecoratedText.BOLDITALIC) {
-			decoratedText.getText().accept(this,
-					htmlElement.setName(B).addChild().setName(I).addChild());
+			decoratedText.getText().accept(this, htmlElement.setName(B).addChild().setName(I).addChild());
 			return;
 		}
 
 		if (type == DecoratedText.ITALIC) {
-			decoratedText.getText().accept(this,
-					htmlElement.setName(I).addChild());
+			decoratedText.getText().accept(this, htmlElement.setName(I).addChild());
 			return;
 		}
 
 		if (type == DecoratedText.UNDERLINE) {
-			decoratedText.getText().accept(this,
-					htmlElement.setName(U).addChild());
+			decoratedText.getText().accept(this, htmlElement.setName(U).addChild());
 			return;
 		}
 
@@ -105,18 +94,14 @@ public class HtmlElementVisitor implements Visitor<HtmlElement> {
 	}
 
 	public void visit(LinkText linkText, HtmlElement htmlElement) {
-		linkText.getText().accept(
-				this,
-				htmlElement.setName(A).addAttribute(HREF, linkText.getHref())
-						.addChild());
+		linkText.getText().accept(this, htmlElement.setName(A).addAttribute(HREF, linkText.getHref()).addChild());
 	}
 
 	public void visit(List list, HtmlElement htmlElement) {
 		htmlElement.setName(l(list.getType()));
 
 		for (ListItem listItem : list.getListItems())
-			if (listItem instanceof List)
-				visit((List) listItem, htmlElement.addChild());
+			if (listItem instanceof List) visit((List) listItem, htmlElement.addChild());
 			else
 				visit(listItem, htmlElement.addChild());
 	}
@@ -150,8 +135,7 @@ public class HtmlElementVisitor implements Visitor<HtmlElement> {
 			visit((TitleText) node, htmlElement);
 			return;
 		}
-		throw new RuntimeException("declare and implement Visitor.visit("
-				+ node.getClass().getName() + ")");
+		throw new RuntimeException("declare and implement Visitor.visit(" + node.getClass().getName() + ")");
 	}
 
 	public void visit(Text text, HtmlElement htmlElement) {
@@ -159,7 +143,6 @@ public class HtmlElementVisitor implements Visitor<HtmlElement> {
 	}
 
 	public void visit(TitleText titleText, HtmlElement htmlElement) {
-		titleText.getText().accept(this,
-				htmlElement.setName(h(titleText.getLevel())).addChild());
+		titleText.getText().accept(this, htmlElement.setName(h(titleText.getLevel())).addChild());
 	}
 }
