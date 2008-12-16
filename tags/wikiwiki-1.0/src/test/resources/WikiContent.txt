@@ -1,0 +1,27 @@
+adding wiki engine parsing "description" attributes. We want use a commons wiki language such as mediawiki or trac wiki language to parse and present wiki content in description field in some domain object.
+
+
+For example:
+'''bold'''
+''italic''
+_underline_
+
+
+* item1
+** item1.1
+** item1.2
+
+= Title 1 =
+== Title 2 ==
+=== Title 3 ===
+
+
+WikiWord
+
+
+[WikiWord Description]
+[http://www.google.it Description]
+[http://www.google.it]
+
+
+http://www.google.it
