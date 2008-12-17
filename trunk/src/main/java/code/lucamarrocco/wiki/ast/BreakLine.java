@@ -1,5 +1,9 @@
 package code.lucamarrocco.wiki.ast;
 
-public interface BreakLine extends BodyDeclaration {
-	final String ROLE = "breakLine";
+
+public class BreakLine extends BodyDeclaration {
+	public <A> void accept(Visitor<A> visitor, A arg) {
+		visitor.visit((BreakLine) this, arg);
+	}
+	
 }

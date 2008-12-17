@@ -1,15 +1,12 @@
 package code.lucamarrocco.wiki.ast;
 
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import junit.framework.*;
 
-public class DefaultLinkTextTest extends MockObjectTestCase {
-	private Mock mockText = mock(Text.class);
-
-	private Text TEXT = (Text) mockText.proxy();
+public class LinkTextTest extends TestCase {
+	private Text TEXT = new Text();
 
 	public void testDefaultLinkText() {
-		DefaultLinkText link = new DefaultLinkText();
+		LinkText link = new LinkText();
 
 		assertNotNull(link);
 		assertTrue(link instanceof Node);
@@ -18,7 +15,7 @@ public class DefaultLinkTextTest extends MockObjectTestCase {
 	}
 
 	public void testSetText() {
-		DefaultLinkText link = new DefaultLinkText();
+		LinkText link = new LinkText();
 
 		assertEquals(link, link.setText(TEXT));
 		assertEquals(TEXT, link.getText());

@@ -1,20 +1,17 @@
 package code.lucamarrocco.wiki.ast;
 
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import junit.framework.*;
 
-public class DefaultDecoratedTextTest extends MockObjectTestCase {
-	private Mock mockText = mock(Text.class);
+public class DecoratedTextTest extends TestCase {
+	private Text TEXT = new Text();
 
-	private Text TEXT = (Text) mockText.proxy();
-
-	private void assertType(DefaultDecoratedText decoratedText, int type) {
+	private void assertType(DecoratedText decoratedText, int type) {
 		assertEquals(decoratedText, decoratedText.setType(type));
 		assertEquals(type, decoratedText.getType());
 	}
 
 	public void testDefaultDecoratedText() {
-		DefaultDecoratedText decoratedText = new DefaultDecoratedText();
+		DecoratedText decoratedText = new DecoratedText();
 
 		assertNotNull(decoratedText);
 		assertTrue(decoratedText instanceof Node);
@@ -23,14 +20,14 @@ public class DefaultDecoratedTextTest extends MockObjectTestCase {
 	}
 
 	public void testSetText() {
-		DefaultDecoratedText decoratedText = new DefaultDecoratedText();
+		DecoratedText decoratedText = new DecoratedText();
 
 		assertEquals(decoratedText, decoratedText.setText(TEXT));
 		assertEquals(TEXT, decoratedText.getText());
 	}
 
 	public void testSetType() {
-		DefaultDecoratedText decoratedText = new DefaultDecoratedText();
+		DecoratedText decoratedText = new DecoratedText();
 
 		assertEquals(DecoratedText.NORMAL, decoratedText.getType());
 

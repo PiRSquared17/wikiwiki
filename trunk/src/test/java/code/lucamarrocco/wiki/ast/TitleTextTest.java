@@ -1,17 +1,14 @@
 package code.lucamarrocco.wiki.ast;
 
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import junit.framework.*;
 
-public class DefaultTitleTextTest extends MockObjectTestCase {
+public class TitleTextTest extends TestCase {
 	private static final int LEVEL = 2;
 
-	private Mock mockText = mock(Text.class);
-
-	private Text TEXT = (Text) mockText.proxy();
+	private Text TEXT = new Text();
 
 	public void testDefaultTitleText() {
-		DefaultTitleText title = new DefaultTitleText();
+		TitleText title = new TitleText();
 
 		assertNotNull(title);
 		assertTrue(title instanceof Node);
@@ -20,14 +17,14 @@ public class DefaultTitleTextTest extends MockObjectTestCase {
 	}
 
 	public void testSetLevel() {
-		DefaultTitleText title = new DefaultTitleText();
+		TitleText title = new TitleText();
 
 		assertEquals(title, title.setLevel(LEVEL));
 		assertEquals(LEVEL, title.getLevel());
 	}
 
 	public void testSetText() {
-		DefaultTitleText title = new DefaultTitleText();
+		TitleText title = new TitleText();
 
 		assertEquals(title, title.setText(TEXT));
 		assertEquals(TEXT, title.getText());

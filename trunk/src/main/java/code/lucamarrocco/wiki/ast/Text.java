@@ -1,9 +1,18 @@
 package code.lucamarrocco.wiki.ast;
 
-public interface Text extends BodyDeclaration {
-	final String ROLE = "text";
+public class Text extends BodyDeclaration {
+	private String value;
 
-	String getValue();
+	public <A> void accept(Visitor<A> visitor, A arg) {
+		visitor.visit((Text) this, arg);
+	}
 
-	Text setValue(String text);
+	public String getValue() {
+		return value;
+	}
+
+	public Text setValue(String value) {
+		this.value = value;
+		return this;
+	}
 }

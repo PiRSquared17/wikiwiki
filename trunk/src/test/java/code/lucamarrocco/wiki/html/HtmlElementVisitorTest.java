@@ -4,14 +4,14 @@ import junit.framework.TestCase;
 import code.lucamarrocco.wiki.ast.BreakLine;
 import code.lucamarrocco.wiki.ast.Content;
 import code.lucamarrocco.wiki.ast.DecoratedText;
-import code.lucamarrocco.wiki.ast.DefaultBreakLine;
-import code.lucamarrocco.wiki.ast.DefaultContent;
-import code.lucamarrocco.wiki.ast.DefaultDecoratedText;
-import code.lucamarrocco.wiki.ast.DefaultLinkText;
-import code.lucamarrocco.wiki.ast.DefaultList;
-import code.lucamarrocco.wiki.ast.DefaultListItem;
-import code.lucamarrocco.wiki.ast.DefaultText;
-import code.lucamarrocco.wiki.ast.DefaultTitleText;
+import code.lucamarrocco.wiki.ast.BreakLine;
+import code.lucamarrocco.wiki.ast.Content;
+import code.lucamarrocco.wiki.ast.DecoratedText;
+import code.lucamarrocco.wiki.ast.LinkText;
+import code.lucamarrocco.wiki.ast.List;
+import code.lucamarrocco.wiki.ast.ListItem;
+import code.lucamarrocco.wiki.ast.Text;
+import code.lucamarrocco.wiki.ast.TitleText;
 import code.lucamarrocco.wiki.ast.LinkText;
 import code.lucamarrocco.wiki.ast.List;
 import code.lucamarrocco.wiki.ast.ListItem;
@@ -30,7 +30,7 @@ public class HtmlElementVisitorTest extends TestCase {
 
 		htmlElement = new HtmlElement();
 
-		DecoratedText node = new DefaultDecoratedText().setType(type).setText(new DefaultText().setValue(VALUE));
+		DecoratedText node = new DecoratedText().setType(type).setText(new Text().setValue(VALUE));
 
 		node.accept(htmlElementVisitor, htmlElement);
 
@@ -42,7 +42,7 @@ public class HtmlElementVisitorTest extends TestCase {
 
 		htmlElement = new HtmlElement();
 
-		TitleText node = new DefaultTitleText().setLevel(level).setText(new DefaultText().setValue(VALUE));
+		TitleText node = new TitleText().setLevel(level).setText(new Text().setValue(VALUE));
 
 		node.accept(htmlElementVisitor, htmlElement);
 
@@ -56,7 +56,7 @@ public class HtmlElementVisitorTest extends TestCase {
 	}
 
 	public void testText() {
-		Text node = new DefaultText().setValue(VALUE);
+		Text node = new Text().setValue(VALUE);
 
 		node.accept(htmlElementVisitor, htmlElement);
 
@@ -66,7 +66,7 @@ public class HtmlElementVisitorTest extends TestCase {
 	}
 
 	public void testVisitBreakLine() {
-		BreakLine node = new DefaultBreakLine();
+		BreakLine node = new BreakLine();
 
 		node.accept(htmlElementVisitor, htmlElement);
 
@@ -76,7 +76,7 @@ public class HtmlElementVisitorTest extends TestCase {
 	}
 
 	public void testVisitContent() {
-		Content node = new DefaultContent().addBodyDeclaration(new DefaultText().setValue(VALUE)).addBodyDeclaration(new DefaultBreakLine()).addBodyDeclaration(new DefaultText().setValue(VALUE));
+		Content node = new Content().addBodyDeclaration(new Text().setValue(VALUE)).addBodyDeclaration(new BreakLine()).addBodyDeclaration(new Text().setValue(VALUE));
 
 		node.accept(htmlElementVisitor, htmlElement);
 
@@ -94,7 +94,7 @@ public class HtmlElementVisitorTest extends TestCase {
 	}
 
 	public void testVisitLinkText() {
-		LinkText node = new DefaultLinkText().setHref(VALUE).setText(new DefaultText().setValue(VALUE));
+		LinkText node = new LinkText().setHref(VALUE).setText(new Text().setValue(VALUE));
 
 		node.accept(htmlElementVisitor, htmlElement);
 
@@ -104,10 +104,10 @@ public class HtmlElementVisitorTest extends TestCase {
 	}
 
 	public void testVisitListText() {
-		List orderedList = new DefaultList().setType(List.ORDERED_LIST).addListItem(new DefaultListItem().setText(new DefaultText().setValue(VALUE))).addListItem(
-				new DefaultListItem().setText(new DefaultText().setValue(VALUE)));
-		List unorderedList = new DefaultList().setType(List.UNORDERED_LIST).addListItem(new DefaultListItem().setText(new DefaultText().setValue(VALUE))).addListItem(
-				new DefaultListItem().setText(new DefaultText().setValue(VALUE)));
+		List orderedList = new List().setType(List.ORDERED_LIST).addListItem(new ListItem().setText(new Text().setValue(VALUE))).addListItem(
+				new ListItem().setText(new Text().setValue(VALUE)));
+		List unorderedList = new List().setType(List.UNORDERED_LIST).addListItem(new ListItem().setText(new Text().setValue(VALUE))).addListItem(
+				new ListItem().setText(new Text().setValue(VALUE)));
 
 		htmlElement = new HtmlElement();
 		orderedList.accept(htmlElementVisitor, htmlElement);

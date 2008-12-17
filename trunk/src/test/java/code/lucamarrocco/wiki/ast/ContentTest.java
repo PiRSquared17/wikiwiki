@@ -1,15 +1,12 @@
 package code.lucamarrocco.wiki.ast;
 
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import org.jmock.*;
 
-public class DefaultContentTest extends MockObjectTestCase {
-	private Mock mockBodyDeclaration = mock(BodyDeclaration.class);
-
-	private BodyDeclaration BODY_DECLARATION = (BodyDeclaration) mockBodyDeclaration.proxy();
+public class ContentTest extends TestCase {
+	private BodyDeclaration BODY_DECLARATION = new Text();
 
 	public void testAddBodyDeclaration() {
-		DefaultContent content = new DefaultContent();
+		Content content = new Content();
 
 		content.addBodyDeclaration(BODY_DECLARATION);
 
@@ -19,13 +16,13 @@ public class DefaultContentTest extends MockObjectTestCase {
 	}
 
 	public void testDefaultContent() {
-		DefaultContent content = new DefaultContent();
+		Content content = new Content();
 
 		assertNotNull(content);
 		assertNotNull(content.getBodyDeclarations());
 		assertTrue(content.getBodyDeclarations().isEmpty());
 		assertTrue(content instanceof Node);
 		assertTrue(content instanceof Content);
-		assertTrue(content instanceof AbstractNode);
+		assertTrue(content instanceof Node);
 	}
 }

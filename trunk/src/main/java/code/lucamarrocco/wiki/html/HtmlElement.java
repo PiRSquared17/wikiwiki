@@ -18,21 +18,17 @@ public class HtmlElement {
 
 	public HtmlElement() {
 		this.children = new LinkedList<HtmlElement>();
-
 		this.attrs = new HashMap<String, Object>();
 	}
 
 	public HtmlElement addAttribute(String name, Object value) {
 		getAttrs().put(name, value);
-
 		return this;
 	}
 
 	public HtmlElement addChild() {
 		HtmlElement childHtmlElement = new HtmlElement();
-
 		children.add(childHtmlElement);
-
 		return childHtmlElement;
 	}
 
@@ -54,7 +50,6 @@ public class HtmlElement {
 
 	public HtmlElement setName(String name) {
 		this.name = name;
-
 		return this;
 	}
 

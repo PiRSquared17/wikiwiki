@@ -1,13 +1,30 @@
 package code.lucamarrocco.wiki.ast;
 
-public interface TitleText extends BodyDeclaration {
-	final String ROLE = "titleText";
+public class TitleText extends BodyDeclaration {
+	private int level;
 
-	int getLevel();
+	private Text text;
 
-	Text getText();
+	public <A> void accept(Visitor<A> visitor, A arg) {
+		visitor.visit((TitleText) this, arg);
+	}
 
-	TitleText setLevel(int level);
+	public int getLevel() {
+		return level;
+	}
 
-	TitleText setText(Text text);
+	public Text getText() {
+		return text;
+	}
+
+	public TitleText setLevel(int level) {
+		this.level = level;
+
+		return this;
+	}
+
+	public TitleText setText(Text text) {
+		this.text = text;
+		return this;
+	}
 }
