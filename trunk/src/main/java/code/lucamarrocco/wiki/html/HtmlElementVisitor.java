@@ -1,17 +1,6 @@
-
 package code.lucamarrocco.wiki.html;
 
-import code.lucamarrocco.wiki.ast.BodyDeclaration;
-import code.lucamarrocco.wiki.ast.BreakLine;
-import code.lucamarrocco.wiki.ast.Content;
-import code.lucamarrocco.wiki.ast.DecoratedText;
-import code.lucamarrocco.wiki.ast.LinkText;
-import code.lucamarrocco.wiki.ast.List;
-import code.lucamarrocco.wiki.ast.ListItem;
-import code.lucamarrocco.wiki.ast.Node;
-import code.lucamarrocco.wiki.ast.Text;
-import code.lucamarrocco.wiki.ast.TitleText;
-import code.lucamarrocco.wiki.ast.Visitor;
+import code.lucamarrocco.wiki.ast.*;
 
 /** @author Luca Marrocco */
 public class HtmlElementVisitor implements Visitor<HtmlElement> {
@@ -69,30 +58,24 @@ public class HtmlElementVisitor implements Visitor<HtmlElement> {
 			visit(bodyDeclaration, htmlElement.addChild());
 	}
 
-	public void visit(DecoratedText decoratedText, HtmlElement htmlElement) {
-		int type = decoratedText.getType();
+	public void visit(DecoratedBoldText decoratedText, HtmlElement htmlElement) {
+		decoratedText.getText().accept(this, htmlElement.setName(B).addChild());
+	}
 
-		if (type == DecoratedText.BOLD) {
-			decoratedText.getText().accept(this, htmlElement.setName(B).addChild());
-			return;
-		}
+	public void visit(DecoratedBoldItalicText decoratedText, HtmlElement htmlElement) {
+		decoratedText.getText().accept(this, htmlElement.setName(B).addChild().setName(I).addChild());
+	}
 
-		if (type == DecoratedText.BOLDITALIC) {
-			decoratedText.getText().accept(this, htmlElement.setName(B).addChild().setName(I).addChild());
-			return;
-		}
+	public void visit(DecoratedItalicText decoratedText, HtmlElement htmlElement) {
+		decoratedText.getText().accept(this, htmlElement.setName(I).addChild());
+	}
 
-		if (type == DecoratedText.ITALIC) {
-			decoratedText.getText().accept(this, htmlElement.setName(I).addChild());
-			return;
-		}
+	public void visit(DecoratedNormalText decoratedText, HtmlElement htmlElement) {
+		decoratedText.getText().accept(this, htmlElement.addChild());
+	}
 
-		if (type == DecoratedText.UNDERLINE) {
-			decoratedText.getText().accept(this, htmlElement.setName(U).addChild());
-			return;
-		}
-
-		decoratedText.getText().accept(this, htmlElement);
+	public void visit(DecoratedUnderlineText decoratedText, HtmlElement htmlElement) {
+		decoratedText.getText().accept(this, htmlElement.setName(U).addChild());
 	}
 
 	public void visit(LinkText linkText, HtmlElement htmlElement) {
@@ -105,8 +88,7 @@ public class HtmlElementVisitor implements Visitor<HtmlElement> {
 		for (ListItem listItem : list)
 			if (listItem instanceof List) {
 				visit((List) listItem, htmlElement.addChild());
-			}
-			else
+			} else
 				visit(listItem, htmlElement.addChild());
 	}
 
@@ -119,8 +101,20 @@ public class HtmlElementVisitor implements Visitor<HtmlElement> {
 			visit((BreakLine) node, htmlElement);
 			return;
 		}
-		if (node instanceof DecoratedText) {
-			visit((DecoratedText) node, htmlElement);
+		if (node instanceof DecoratedBoldText) {
+			visit((DecoratedBoldText)node, htmlElement);
+			return;
+		}
+		if (node instanceof DecoratedBoldItalicText) {
+			visit((DecoratedBoldItalicText)node, htmlElement);
+			return;
+		}
+		if (node instanceof DecoratedItalicText) {
+			visit((DecoratedItalicText)node, htmlElement);
+			return;
+		}
+		if (node instanceof DecoratedUnderlineText) {
+			visit((DecoratedUnderlineText)node, htmlElement);
 			return;
 		}
 		if (node instanceof LinkText) {

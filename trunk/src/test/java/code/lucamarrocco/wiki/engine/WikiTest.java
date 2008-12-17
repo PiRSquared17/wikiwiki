@@ -33,6 +33,12 @@ public class WikiTest {
 	}
 
 	@Test
+	public void testParserNormal() throws Exception {
+		assertThat(wiki("value"), is("value"));
+		assertThat(wiki("value"), is("value"));
+	}
+
+	@Test
 	public void testParserLbracketUrlDescriptionRbracket() throws Exception {
 		assertThat(wiki("[http://www.google.it google]"), is("<a href=\"http://www.google.it\">google</a>"));
 		assertThat(wiki("[http://www.google.it google"), is("<a href=\"http://www.google.it\">google</a>"));

@@ -4,7 +4,7 @@ package code.lucamarrocco.wiki.ast;
 public class TitleText extends BodyDeclaration {
 	private int level;
 
-	private Text text;
+	private Text text = new Text();
 
 	public <A> void accept(Visitor<A> visitor, A arg) {
 		visitor.visit((TitleText) this, arg);

@@ -13,28 +13,10 @@ options {
 PARSER_BEGIN(WikiParser)
 package code.lucamarrocco.wiki.parser;
 
-import java.io.InputStream;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import code.lucamarrocco.wiki.ast.BodyDeclaration;
-import code.lucamarrocco.wiki.ast.BreakLine;
-import code.lucamarrocco.wiki.ast.Content;
-import code.lucamarrocco.wiki.ast.DecoratedText;
-import code.lucamarrocco.wiki.ast.DefaultBreakLine;
-import code.lucamarrocco.wiki.ast.DefaultContent;
-import code.lucamarrocco.wiki.ast.DefaultDecoratedText;
-import code.lucamarrocco.wiki.ast.DefaultLinkText;
-import code.lucamarrocco.wiki.ast.DefaultList;
-import code.lucamarrocco.wiki.ast.DefaultListItem;
-import code.lucamarrocco.wiki.ast.DefaultText;
-import code.lucamarrocco.wiki.ast.DefaultTitleText;
-import code.lucamarrocco.wiki.ast.LinkText;
-import code.lucamarrocco.wiki.ast.List;
-import code.lucamarrocco.wiki.ast.ListItem;
-import code.lucamarrocco.wiki.ast.Text;
-import code.lucamarrocco.wiki.ast.TitleText;
+import java.io.*;
+import org.apache.commons.logging.*;
+import code.lucamarrocco.wiki.ast.*;
 
 
 public final class WikiParser {
@@ -113,7 +95,7 @@ void End():
 
 Content Content():
 {
-	Content content = new DefaultContent();
+	Content content = new Content();
 	BodyDeclaration bodyDeclaration;
 }
 {
@@ -147,7 +129,7 @@ TitleText TitleText(int level):
 {
 	<TITLE> titleText = TitleText(level + 1) (<TITLE> | End()) { return titleText; }
 	|
-	text = Text() { return new DefaultTitleText().setLevel(level).setText(text); }
+	text = Text() { return new TitleText().setLevel(level).setText(text); }
 }
 
 
@@ -157,15 +139,15 @@ DecoratedText DecoratedText():
 	Text text;
 }
 {
-	<BOLD> decoratedText = DecoratedText() (<BOLD> | End()) { return decoratedText.setType(DecoratedText.BOLD); }
+	<BOLD> decoratedText = DecoratedText() (<BOLD> | End()) { return new DecoratedBoldText().setText(decoratedText.getText()); }
 	|
-	<ITALIC> decoratedText = DecoratedText()  (<ITALIC> | End()){ return decoratedText.setType(DecoratedText.ITALIC); }
+	<BOLDITALIC> decoratedText = DecoratedText()  (<BOLDITALIC> | End()) { return new DecoratedBoldItalicText().setText(decoratedText.getText()); }
 	|
-	<BOLDITALIC> decoratedText = DecoratedText()  (<BOLDITALIC> | End()) { return decoratedText.setType(DecoratedText.BOLDITALIC); }
+	<ITALIC> decoratedText = DecoratedText()  (<ITALIC> | End()){ return new DecoratedItalicText().setText(decoratedText.getText()); }
 	|
-	<UNDERLINE> decoratedText = DecoratedText() (<UNDERLINE> | End()){ return decoratedText.setType(DecoratedText.UNDERLINE); }
+	<UNDERLINE> decoratedText = DecoratedText() (<UNDERLINE> | End()){ return new DecoratedUnderlineText().setText(decoratedText.getText()); }
 	|
-	text = Text() { return new DefaultDecoratedText().setType(DecoratedText.NORMAL).setText(text); }
+	text = Text() { return new DecoratedNormalText().setText(text); }
 }
 
 List List():
@@ -181,51 +163,51 @@ List List():
 List UnorderedList():
 {
 	Text text;
-	List list = new DefaultList().setType(List.UNORDERED_LIST);
+	List list = new List().setType(List.UNORDERED_LIST);
 	List nestedList;
 }
 {
-	<ULI> text = DecoratedText() { list.addListItem(new DefaultListItem().setText(text)); } [<BREAKLINE> nestedList = NestedUnorderedList() { list.addListItem(nestedList); }] (<BREAKLINE> <ULI> text = DecoratedText() { list.addListItem(new DefaultListItem().setText(text)); } )* End() { return list; }
+	<ULI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } [<BREAKLINE> nestedList = NestedUnorderedList() { list.addListItem(nestedList); }] (<BREAKLINE> <ULI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } )* End() { return list; }
 	|
-	<ULI> text = DecoratedText() { list.addListItem(new DefaultListItem().setText(text)); } [<BREAKLINE> nestedList = NestedUnorderedList() { list.addListItem(nestedList); }] End() { return list; }
+	<ULI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } [<BREAKLINE> nestedList = NestedUnorderedList() { list.addListItem(nestedList); }] End() { return list; }
 }
 
 List NestedUnorderedList():
 {
 	Text text;
-	List list = new DefaultList().setType(List.UNORDERED_LIST);
+	List list = new List().setType(List.UNORDERED_LIST);
 }
 {
-	<ULIULI> text = DecoratedText() { list.addListItem(new DefaultListItem().setText(text)); } (<BREAKLINE> <ULIULI> text = DecoratedText() { list.addListItem(new DefaultListItem().setText(text)); } )* { return list; }
+	<ULIULI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } (<BREAKLINE> <ULIULI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } )* { return list; }
 	|
-	<ULIULI> text = DecoratedText() { list.addListItem(new DefaultListItem().setText(text)); } (<BREAKLINE> <ULIULI> text = DecoratedText() { list.addListItem(new DefaultListItem().setText(text)); } )* { return list; }
+	<ULIULI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } (<BREAKLINE> <ULIULI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } )* { return list; }
 	|
-	<ULIULI> text = DecoratedText() { return list.addListItem(new DefaultListItem().setText(text)); }
+	<ULIULI> text = DecoratedText() { return list.addListItem(new ListItem().setText(text)); }
 }
 
 List OrderedList():
 {
 	Text text;
-	List list = new DefaultList().setType(List.ORDERED_LIST);
+	List list = new List().setType(List.ORDERED_LIST);
 	List nestedList;
 }
 {
-	<OLI> text = DecoratedText() { list.addListItem(new DefaultListItem().setText(text)); } [<BREAKLINE> nestedList = NestedOrderedList() { list.addListItem(nestedList); }] (<BREAKLINE> <OLI> text = DecoratedText() { list.addListItem(new DefaultListItem().setText(text)); } )* End() { return list; }
+	<OLI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } [<BREAKLINE> nestedList = NestedOrderedList() { list.addListItem(nestedList); }] (<BREAKLINE> <OLI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } )* End() { return list; }
 	|
-	<OLI> text = DecoratedText() { list.addListItem(new DefaultListItem().setText(text)); } [<BREAKLINE> nestedList = NestedOrderedList() { list.addListItem(nestedList); }] End() { return list; }
+	<OLI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } [<BREAKLINE> nestedList = NestedOrderedList() { list.addListItem(nestedList); }] End() { return list; }
 }
 
 List NestedOrderedList():
 {
 	Text text;
-	List list = new DefaultList().setType(List.ORDERED_LIST);
+	List list = new List().setType(List.ORDERED_LIST);
 }
 {
-	<OLIOLI> text = DecoratedText() { list.addListItem(new DefaultListItem().setText(text)); } (<BREAKLINE> <OLIOLI> text = DecoratedText() { list.addListItem(new DefaultListItem().setText(text)); } )* { return list; }
+	<OLIOLI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } (<BREAKLINE> <OLIOLI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } )* { return list; }
 	|
-	<OLIOLI> text = DecoratedText() { list.addListItem(new DefaultListItem().setText(text)); } (<BREAKLINE> <OLIOLI> text = DecoratedText() { list.addListItem(new DefaultListItem().setText(text)); } )* { return list; }
+	<OLIOLI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } (<BREAKLINE> <OLIOLI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } )* { return list; }
 	|
-	<OLIOLI> text = DecoratedText() { return list.addListItem(new DefaultListItem().setText(text)); }
+	<OLIOLI> text = DecoratedText() { return list.addListItem(new ListItem().setText(text)); }
 }
 
 
@@ -240,7 +222,7 @@ LinkText LinkText():
 	|
 	<LBRACKET> href = HyperLink() [description = Text() { href.setText(description); }] (<RBRACKET> | End()) { return href; }
 	|
-	<LBRACKET> <STRING> { string = token.image; } (<RBRACKET> | End()) { return new DefaultLinkText().setHref(string).setText(new DefaultText().setValue(string)); }
+	<LBRACKET> <STRING> { string = token.image; } (<RBRACKET> | End()) { return new LinkText().setHref(string).setText(new Text().setValue(string)); }
 }
 
 
@@ -248,9 +230,9 @@ LinkText HyperLink():
 {
 }
 {
-	<HTTPSTRING> { return new DefaultLinkText().setHref(token.image).setText(new DefaultText().setValue(token.image)); }
+	<HTTPSTRING> { return new LinkText().setHref(token.image).setText(new Text().setValue(token.image)); }
 	|
-	<WIKIWORD> { return new DefaultLinkText().setHref(token.image).setText(new DefaultText().setValue(token.image)); }
+	<WIKIWORD> { return new LinkText().setHref(token.image).setText(new Text().setValue(token.image)); }
 }
 
 Text Text():
@@ -260,16 +242,16 @@ Text Text():
 {
 	{ StringBuffer stringBuffer = new StringBuffer(); } 
 	(<STRING> { stringBuffer.append(token.image); stringBuffer.append(" "); } )+ 
-	{ return new DefaultText().setValue(stringBuffer.toString().replaceAll(" $", "")); }
+	{ return new Text().setValue(stringBuffer.toString().replaceAll(" $", "")); }
 	|
-	<NOT> <STRING> { return new DefaultText().setValue(token.image); }
+	<NOT> <STRING> { return new Text().setValue(token.image); }
 	|
-	"'" { return new DefaultText().setValue("'"); }
+	"'" { return new Text().setValue("'"); }
 }
 
 BreakLine BreakLine():
 {
 }
 {
-	<BREAKLINE> { return new DefaultBreakLine(); }
+	<BREAKLINE> { return new BreakLine(); }
 }

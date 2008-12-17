@@ -11,16 +11,25 @@ public class HtmlElementVisitorTest extends TestCase {
 
 	private HtmlElementVisitor htmlElementVisitor;
 
-	private void assertDecoratedText(String expected, int type) {
+	private void assertDecoratedText(String expected, Class decoratedTextClass) {
 		htmlElementVisitor = new HtmlElementVisitor();
-
 		htmlElement = new HtmlElement();
 
-		DecoratedText node = new DecoratedText().setType(type).setText(new Text().setValue(VALUE));
+		DecoratedText node = newDecoratedText(decoratedTextClass, VALUE);
 
 		node.accept(htmlElementVisitor, htmlElement);
 
 		assertEquals(expected, htmlElement.toString());
+	}
+
+	private DecoratedText newDecoratedText(Class decoratedTextClass, String value) {
+		DecoratedText node;
+		try {
+			node = (DecoratedText) decoratedTextClass.newInstance();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return node.setText(new Text().setValue(value));
 	}
 
 	private void assertTitleText(String expected, int level) {
@@ -72,11 +81,11 @@ public class HtmlElementVisitorTest extends TestCase {
 	}
 
 	public void testVisitDecoratedText() {
-		assertDecoratedText("<b><i>value</i></b>", DecoratedText.BOLDITALIC);
-		assertDecoratedText("<b>value</b>", DecoratedText.BOLD);
-		assertDecoratedText("<i>value</i>", DecoratedText.ITALIC);
-		assertDecoratedText("<u>value</u>", DecoratedText.UNDERLINE);
-		assertDecoratedText("value", DecoratedText.NORMAL);
+		assertDecoratedText("<b><i>value</i></b>", DecoratedBoldItalicText.class);
+		assertDecoratedText("<b>value</b>", DecoratedBoldText.class);
+		assertDecoratedText("<i>value</i>", DecoratedItalicText.class);
+		assertDecoratedText("<u>value</u>", DecoratedUnderlineText.class);
+		assertDecoratedText("value", DecoratedNormalText.class);
 	}
 
 	public void testVisitLinkText() {
@@ -90,10 +99,8 @@ public class HtmlElementVisitorTest extends TestCase {
 	}
 
 	public void testVisitListText() {
-		List orderedList = new List().setType(List.ORDERED_LIST).addListItem(new ListItem().setText(new Text().setValue(VALUE))).addListItem(
-				new ListItem().setText(new Text().setValue(VALUE)));
-		List unorderedList = new List().setType(List.UNORDERED_LIST).addListItem(new ListItem().setText(new Text().setValue(VALUE))).addListItem(
-				new ListItem().setText(new Text().setValue(VALUE)));
+		List orderedList = new List().setType(List.ORDERED_LIST).addListItem(new ListItem().setText(new Text().setValue(VALUE))).addListItem(new ListItem().setText(new Text().setValue(VALUE)));
+		List unorderedList = new List().setType(List.UNORDERED_LIST).addListItem(new ListItem().setText(new Text().setValue(VALUE))).addListItem(new ListItem().setText(new Text().setValue(VALUE)));
 
 		htmlElement = new HtmlElement();
 		orderedList.accept(htmlElementVisitor, htmlElement);
