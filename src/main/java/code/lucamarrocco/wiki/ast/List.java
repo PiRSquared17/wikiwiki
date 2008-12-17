@@ -13,7 +13,7 @@ public class List extends ListItem implements Iterable<ListItem> {
 
 	private int type;
 
-	private Text text;
+	private Text text = new Text();
 
 	public Iterator<ListItem> iterator() {
 		return listItems.iterator();

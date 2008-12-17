@@ -2,7 +2,7 @@ package code.lucamarrocco.wiki.ast;
 
 /** @author Luca Marrocco */
 public class ListItem extends BodyDeclaration {
-	private Text text;
+	private Text text = new Text();
 
 	public <A> void accept(Visitor<A> visitor, A arg) {
 		visitor.visit((ListItem) this, arg);

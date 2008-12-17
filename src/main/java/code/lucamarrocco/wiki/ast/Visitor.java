@@ -6,7 +6,15 @@ public interface Visitor<A> {
 
 	void visit(Content content, A arg);
 
-	void visit(DecoratedText decoratedText, A arg);
+	void visit(DecoratedBoldText decoratedText, A arg);
+
+	void visit(DecoratedBoldItalicText decoratedText, A arg);
+
+	void visit(DecoratedItalicText decoratedText, A arg);
+
+	void visit(DecoratedNormalText decoratedText, A arg);
+
+	void visit(DecoratedUnderlineText decoratedText, A arg);
 
 	void visit(LinkText linkText, A arg);
 

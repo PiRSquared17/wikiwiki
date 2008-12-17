@@ -4,7 +4,7 @@ package code.lucamarrocco.wiki.ast;
 public class LinkText extends BodyDeclaration {
 	private String href;
 
-	private Text text;
+	private Text text = new Text();
 
 	public <A> void accept(Visitor<A> visitor, A arg) {
 		visitor.visit((LinkText) this, arg);
