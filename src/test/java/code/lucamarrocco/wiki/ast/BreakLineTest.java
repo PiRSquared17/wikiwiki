@@ -2,9 +2,9 @@ package code.lucamarrocco.wiki.ast;
 
 import junit.framework.TestCase;
 
-public class DefaultBreakLineTest extends TestCase {
+public class BreakLineTest extends TestCase {
 	public void testDefaultBreakLine() {
-		DefaultBreakLine text = new DefaultBreakLine();
+		BreakLine text = new BreakLine();
 
 		assertNotNull(text);
 		assertTrue(text instanceof Node);

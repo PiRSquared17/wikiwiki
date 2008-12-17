@@ -10,14 +10,14 @@ import code.lucamarrocco.wiki.ast.BodyDeclaration;
 import code.lucamarrocco.wiki.ast.BreakLine;
 import code.lucamarrocco.wiki.ast.Content;
 import code.lucamarrocco.wiki.ast.DecoratedText;
-import code.lucamarrocco.wiki.ast.DefaultBreakLine;
-import code.lucamarrocco.wiki.ast.DefaultContent;
-import code.lucamarrocco.wiki.ast.DefaultDecoratedText;
-import code.lucamarrocco.wiki.ast.DefaultLinkText;
-import code.lucamarrocco.wiki.ast.DefaultList;
-import code.lucamarrocco.wiki.ast.DefaultListItem;
-import code.lucamarrocco.wiki.ast.DefaultText;
-import code.lucamarrocco.wiki.ast.DefaultTitleText;
+import code.lucamarrocco.wiki.ast.BreakLine;
+import code.lucamarrocco.wiki.ast.Content;
+import code.lucamarrocco.wiki.ast.DecoratedText;
+import code.lucamarrocco.wiki.ast.LinkText;
+import code.lucamarrocco.wiki.ast.List;
+import code.lucamarrocco.wiki.ast.ListItem;
+import code.lucamarrocco.wiki.ast.Text;
+import code.lucamarrocco.wiki.ast.TitleText;
 import code.lucamarrocco.wiki.ast.LinkText;
 import code.lucamarrocco.wiki.ast.List;
 import code.lucamarrocco.wiki.ast.ListItem;
@@ -58,7 +58,7 @@ public final class WikiParser implements WikiParserConstants {
   }
 
   final public Content Content() throws ParseException {
-        Content content = new DefaultContent();
+        Content content = new Content();
         BodyDeclaration bodyDeclaration;
     label_1:
     while (true) {
@@ -119,7 +119,7 @@ public final class WikiParser implements WikiParserConstants {
                                                                      {if (true) return titleText;}
     } else if (jj_2_13(3)) {
       text = Text();
-                        {if (true) return new DefaultTitleText().setLevel(level).setText(text);}
+                        {if (true) return new TitleText().setLevel(level).setText(text);}
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -180,7 +180,7 @@ public final class WikiParser implements WikiParserConstants {
                                                                            {if (true) return decoratedText.setType(DecoratedText.UNDERLINE);}
     } else if (jj_2_26(3)) {
       text = Text();
-                        {if (true) return new DefaultDecoratedText().setType(DecoratedText.NORMAL).setText(text);}
+                        {if (true) return new DecoratedText().setType(DecoratedText.NORMAL).setText(text);}
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -205,12 +205,12 @@ public final class WikiParser implements WikiParserConstants {
 
   final public List UnorderedList() throws ParseException {
         Text text;
-        List list = new DefaultList().setType(List.UNORDERED_LIST);
+        List list = new List().setType(List.UNORDERED_LIST);
         List nestedList;
     if (jj_2_32(3)) {
       jj_consume_token(ULI);
       text = DecoratedText();
-                                       list.addListItem(new DefaultListItem().setText(text));
+                                       list.addListItem(new ListItem().setText(text));
       if (jj_2_29(3)) {
         jj_consume_token(BREAKLINE);
         nestedList = NestedUnorderedList();
@@ -228,14 +228,14 @@ public final class WikiParser implements WikiParserConstants {
         jj_consume_token(BREAKLINE);
         jj_consume_token(ULI);
         text = DecoratedText();
-                                                                                                                                                                                                                               list.addListItem(new DefaultListItem().setText(text));
+                                                                                                                                                                                                                               list.addListItem(new ListItem().setText(text));
       }
       End();
                                                                                                                                                                                                                                                                                                    {if (true) return list;}
     } else if (jj_2_33(3)) {
       jj_consume_token(ULI);
       text = DecoratedText();
-                                       list.addListItem(new DefaultListItem().setText(text));
+                                       list.addListItem(new ListItem().setText(text));
       if (jj_2_31(3)) {
         jj_consume_token(BREAKLINE);
         nestedList = NestedUnorderedList();
@@ -254,11 +254,11 @@ public final class WikiParser implements WikiParserConstants {
 
   final public List NestedUnorderedList() throws ParseException {
         Text text;
-        List list = new DefaultList().setType(List.UNORDERED_LIST);
+        List list = new List().setType(List.UNORDERED_LIST);
     if (jj_2_36(3)) {
       jj_consume_token(ULIULI);
       text = DecoratedText();
-                                          list.addListItem(new DefaultListItem().setText(text));
+                                          list.addListItem(new ListItem().setText(text));
       label_3:
       while (true) {
         if (jj_2_34(3)) {
@@ -269,13 +269,13 @@ public final class WikiParser implements WikiParserConstants {
         jj_consume_token(BREAKLINE);
         jj_consume_token(ULIULI);
         text = DecoratedText();
-                                                                                                                                                  list.addListItem(new DefaultListItem().setText(text));
+                                                                                                                                                  list.addListItem(new ListItem().setText(text));
       }
                                                                                                                                                                                                                 {if (true) return list;}
     } else if (jj_2_37(3)) {
       jj_consume_token(ULIULI);
       text = DecoratedText();
-                                          list.addListItem(new DefaultListItem().setText(text));
+                                          list.addListItem(new ListItem().setText(text));
       label_4:
       while (true) {
         if (jj_2_35(3)) {
@@ -286,13 +286,13 @@ public final class WikiParser implements WikiParserConstants {
         jj_consume_token(BREAKLINE);
         jj_consume_token(ULIULI);
         text = DecoratedText();
-                                                                                                                                                  list.addListItem(new DefaultListItem().setText(text));
+                                                                                                                                                  list.addListItem(new ListItem().setText(text));
       }
                                                                                                                                                                                                                 {if (true) return list;}
     } else if (jj_2_38(3)) {
       jj_consume_token(ULIULI);
       text = DecoratedText();
-                                          {if (true) return list.addListItem(new DefaultListItem().setText(text));}
+                                          {if (true) return list.addListItem(new ListItem().setText(text));}
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -302,12 +302,12 @@ public final class WikiParser implements WikiParserConstants {
 
   final public List OrderedList() throws ParseException {
         Text text;
-        List list = new DefaultList().setType(List.ORDERED_LIST);
+        List list = new List().setType(List.ORDERED_LIST);
         List nestedList;
     if (jj_2_42(3)) {
       jj_consume_token(OLI);
       text = DecoratedText();
-                                       list.addListItem(new DefaultListItem().setText(text));
+                                       list.addListItem(new ListItem().setText(text));
       if (jj_2_39(3)) {
         jj_consume_token(BREAKLINE);
         nestedList = NestedOrderedList();
@@ -325,14 +325,14 @@ public final class WikiParser implements WikiParserConstants {
         jj_consume_token(BREAKLINE);
         jj_consume_token(OLI);
         text = DecoratedText();
-                                                                                                                                                                                                                             list.addListItem(new DefaultListItem().setText(text));
+                                                                                                                                                                                                                             list.addListItem(new ListItem().setText(text));
       }
       End();
                                                                                                                                                                                                                                                                                                  {if (true) return list;}
     } else if (jj_2_43(3)) {
       jj_consume_token(OLI);
       text = DecoratedText();
-                                       list.addListItem(new DefaultListItem().setText(text));
+                                       list.addListItem(new ListItem().setText(text));
       if (jj_2_41(3)) {
         jj_consume_token(BREAKLINE);
         nestedList = NestedOrderedList();
@@ -351,11 +351,11 @@ public final class WikiParser implements WikiParserConstants {
 
   final public List NestedOrderedList() throws ParseException {
         Text text;
-        List list = new DefaultList().setType(List.ORDERED_LIST);
+        List list = new List().setType(List.ORDERED_LIST);
     if (jj_2_46(3)) {
       jj_consume_token(OLIOLI);
       text = DecoratedText();
-                                          list.addListItem(new DefaultListItem().setText(text));
+                                          list.addListItem(new ListItem().setText(text));
       label_6:
       while (true) {
         if (jj_2_44(3)) {
@@ -366,13 +366,13 @@ public final class WikiParser implements WikiParserConstants {
         jj_consume_token(BREAKLINE);
         jj_consume_token(OLIOLI);
         text = DecoratedText();
-                                                                                                                                                  list.addListItem(new DefaultListItem().setText(text));
+                                                                                                                                                  list.addListItem(new ListItem().setText(text));
       }
                                                                                                                                                                                                                 {if (true) return list;}
     } else if (jj_2_47(3)) {
       jj_consume_token(OLIOLI);
       text = DecoratedText();
-                                          list.addListItem(new DefaultListItem().setText(text));
+                                          list.addListItem(new ListItem().setText(text));
       label_7:
       while (true) {
         if (jj_2_45(3)) {
@@ -383,13 +383,13 @@ public final class WikiParser implements WikiParserConstants {
         jj_consume_token(BREAKLINE);
         jj_consume_token(OLIOLI);
         text = DecoratedText();
-                                                                                                                                                  list.addListItem(new DefaultListItem().setText(text));
+                                                                                                                                                  list.addListItem(new ListItem().setText(text));
       }
                                                                                                                                                                                                                 {if (true) return list;}
     } else if (jj_2_48(3)) {
       jj_consume_token(OLIOLI);
       text = DecoratedText();
-                                          {if (true) return list.addListItem(new DefaultListItem().setText(text));}
+                                          {if (true) return list.addListItem(new ListItem().setText(text));}
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -434,7 +434,7 @@ public final class WikiParser implements WikiParserConstants {
         jj_consume_token(-1);
         throw new ParseException();
       }
-                                                                             {if (true) return new DefaultLinkText().setHref(string).setText(new DefaultText().setValue(string));}
+                                                                             {if (true) return new LinkText().setHref(string).setText(new Text().setValue(string));}
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -445,10 +445,10 @@ public final class WikiParser implements WikiParserConstants {
   final public LinkText HyperLink() throws ParseException {
     if (jj_2_57(3)) {
       jj_consume_token(HTTPSTRING);
-                       {if (true) return new DefaultLinkText().setHref(token.image).setText(new DefaultText().setValue(token.image));}
+                       {if (true) return new LinkText().setHref(token.image).setText(new Text().setValue(token.image));}
     } else if (jj_2_58(3)) {
       jj_consume_token(WIKIWORD);
-                     {if (true) return new DefaultLinkText().setHref(token.image).setText(new DefaultText().setValue(token.image));}
+                     {if (true) return new LinkText().setHref(token.image).setText(new Text().setValue(token.image));}
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -470,14 +470,14 @@ public final class WikiParser implements WikiParserConstants {
           break label_8;
         }
       }
-          {if (true) return new DefaultText().setValue(stringBuffer.toString().replaceAll(" $", ""));}
+          {if (true) return new Text().setValue(stringBuffer.toString().replaceAll(" $", ""));}
     } else if (jj_2_61(3)) {
       jj_consume_token(NOT);
       jj_consume_token(STRING);
-                         {if (true) return new DefaultText().setValue(token.image);}
+                         {if (true) return new Text().setValue(token.image);}
     } else if (jj_2_62(3)) {
       jj_consume_token(20);
-              {if (true) return new DefaultText().setValue("'");}
+              {if (true) return new Text().setValue("'");}
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -487,7 +487,7 @@ public final class WikiParser implements WikiParserConstants {
 
   final public BreakLine BreakLine() throws ParseException {
     jj_consume_token(BREAKLINE);
-                      {if (true) return new DefaultBreakLine();}
+                      {if (true) return new BreakLine();}
     throw new Error("Missing return statement in function");
   }
 

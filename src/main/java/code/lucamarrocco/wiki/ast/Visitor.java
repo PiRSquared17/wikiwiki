@@ -1,8 +1,6 @@
 package code.lucamarrocco.wiki.ast;
 
 public interface Visitor<A> {
-	final String ROLE = "visitor";
-
 	void visit(BreakLine breakLine, A arg);
 
 	void visit(Content content, A arg);

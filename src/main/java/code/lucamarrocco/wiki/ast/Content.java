@@ -1,11 +1,24 @@
 package code.lucamarrocco.wiki.ast;
 
+import java.util.LinkedList;
 import java.util.List;
 
-public interface Content extends Node {
-	final String ROLE = "content";
+public class Content extends Node  {
+	private List<BodyDeclaration> bodyDeclarations = new LinkedList<BodyDeclaration>();
 
-	Content addBodyDeclaration(BodyDeclaration bodyDeclaration);
+	public <A> void accept(Visitor<A> visitor, A arg) {
+		visitor.visit((Content) this, arg);
+	}
 
-	List<BodyDeclaration> getBodyDeclarations();
+	public Content addBodyDeclaration(BodyDeclaration bodyDeclaration) {
+		addChild(bodyDeclaration);
+
+		bodyDeclarations.add(bodyDeclaration);
+
+		return this;
+	}
+
+	public List<BodyDeclaration> getBodyDeclarations() {
+		return bodyDeclarations;
+	}
 }

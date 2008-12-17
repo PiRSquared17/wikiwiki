@@ -1,9 +1,18 @@
 package code.lucamarrocco.wiki.ast;
 
-public interface ListItem extends BodyDeclaration {
-	final String ROLE = "listItem";
+public class ListItem extends BodyDeclaration {
+	private Text text;
 
-	Text getText();
+	public <A> void accept(Visitor<A> visitor, A arg) {
+		visitor.visit((ListItem) this, arg);
+	}
 
-	ListItem setText(Text text);
+	public Text getText() {
+		return text;
+	}
+
+	public ListItem setText(Text text) {
+		this.text = text;
+		return this;
+	}
 }

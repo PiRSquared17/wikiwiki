@@ -100,8 +100,10 @@ public class HtmlElementVisitor implements Visitor<HtmlElement> {
 	public void visit(List list, HtmlElement htmlElement) {
 		htmlElement.setName(l(list.getType()));
 
-		for (ListItem listItem : list.getListItems())
-			if (listItem instanceof List) visit((List) listItem, htmlElement.addChild());
+		for (ListItem listItem : list)
+			if (listItem instanceof List) {
+				visit((List) listItem, htmlElement.addChild());
+			}
 			else
 				visit(listItem, htmlElement.addChild());
 	}

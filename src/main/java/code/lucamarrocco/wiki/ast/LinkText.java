@@ -1,13 +1,39 @@
 package code.lucamarrocco.wiki.ast;
 
-public interface LinkText extends Text {
-	final String ROLE = "linkText";
+public class LinkText extends BodyDeclaration {
+	private String href;
 
-	String getHref();
+	private Text text;
 
-	Text getText();
+	public <A> void accept(Visitor<A> visitor, A arg) {
+		visitor.visit((LinkText) this, arg);
+	}
 
-	LinkText setHref(String href);
+	public String getHref() {
+		return href;
+	}
 
-	LinkText setText(Text text);
+	public Text getText() {
+		return text;
+	}
+
+	public String getValue() {
+		return text.getValue();
+	}
+
+	public LinkText setHref(String href) {
+		this.href = href;
+
+		return this;
+	}
+
+	public LinkText setText(Text text) {
+		this.text = text;
+
+		return this;
+	}
+
+	public Text setValue(String value) {
+		return text.setValue(value);
+	}
 }

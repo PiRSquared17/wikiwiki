@@ -1,23 +1,50 @@
 package code.lucamarrocco.wiki.ast;
 
-public interface DecoratedText extends BodyDeclaration, Text {
-	final String ROLE = "decoratedText";
+public class DecoratedText extends Text {
 
-	final int NORMAL = 0;
+	public static final int NORMAL = 0;
 
-	final int BOLD = 1;
+	public static final int BOLD = 1;
 
-	final int BOLDITALIC = 2;
+	public static final int BOLDITALIC = 2;
 
-	final int ITALIC = 3;
+	public static final int ITALIC = 3;
 
-	final int UNDERLINE = 4;
+	public static final int UNDERLINE = 4;
 
-	Text getText();
+	private Text text;
 
-	int getType();
+	private int type = DecoratedText.NORMAL;
 
-	DecoratedText setText(Text text);
+	public <A> void accept(Visitor<A> visitor, A arg) {
+		visitor.visit((DecoratedText) this, arg);
+	}
 
-	DecoratedText setType(int type);
+	public Text getText() {
+		return text;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public String getValue() {
+		return text.getValue();
+	}
+
+	public DecoratedText setText(Text text) {
+		this.text = text;
+
+		return this;
+	}
+
+	public DecoratedText setType(int type) {
+		this.type = type;
+
+		return this;
+	}
+
+	public Text setValue(String value) {
+		return text.setValue(value);
+	}
 }

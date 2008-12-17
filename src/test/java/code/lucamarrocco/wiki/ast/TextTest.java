@@ -2,11 +2,11 @@ package code.lucamarrocco.wiki.ast;
 
 import junit.framework.TestCase;
 
-public class DefaultTextTest extends TestCase {
+public class TextTest extends TestCase {
 	private static final String VALUE = "VALUE";
 
 	public void testDefaultText() {
-		DefaultText text = new DefaultText();
+		Text text = new Text();
 
 		assertNotNull(text);
 		assertTrue(text instanceof Node);
@@ -15,7 +15,7 @@ public class DefaultTextTest extends TestCase {
 	}
 
 	public void testSetValue() {
-		DefaultText text = new DefaultText();
+		Text text = new Text();
 
 		assertEquals(text, text.setValue(VALUE));
 		assertEquals(VALUE, text.getValue());
