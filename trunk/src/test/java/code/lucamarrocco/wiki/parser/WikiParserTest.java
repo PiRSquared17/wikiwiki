@@ -7,6 +7,7 @@ import java.io.*;
 import junit.framework.*;
 import code.lucamarrocco.wiki.ast.*;
 
+/** @author Luca Marrocco */
 public class WikiParserTest extends TestCase {
 	private void assertWikiParserContent(String fileName) throws Exception {
 		InputStream wikiContent = getClass().getClassLoader().getResourceAsStream(fileName);

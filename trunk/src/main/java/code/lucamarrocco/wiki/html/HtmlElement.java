@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+/** @author Luca Marrocco */
 public class HtmlElement {
 	private Map<String, Object> attrs;
 

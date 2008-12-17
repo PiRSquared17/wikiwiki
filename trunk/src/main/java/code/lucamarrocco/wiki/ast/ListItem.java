@@ -1,5 +1,6 @@
 package code.lucamarrocco.wiki.ast;
 
+/** @author Luca Marrocco */
 public class ListItem extends BodyDeclaration {
 	private Text text;
 

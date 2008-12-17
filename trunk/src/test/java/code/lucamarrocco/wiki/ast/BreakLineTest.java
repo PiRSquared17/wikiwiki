@@ -2,6 +2,7 @@ package code.lucamarrocco.wiki.ast;
 
 import junit.framework.TestCase;
 
+/** @author Luca Marrocco */
 public class BreakLineTest extends TestCase {
 	public void testDefaultBreakLine() {
 		BreakLine text = new BreakLine();

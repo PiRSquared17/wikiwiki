@@ -2,6 +2,7 @@ package code.lucamarrocco.wiki.ast;
 
 import junit.framework.*;
 
+/** @author Luca Marrocco */
 public class DecoratedTextTest extends TestCase {
 	private Text TEXT = new Text();
 

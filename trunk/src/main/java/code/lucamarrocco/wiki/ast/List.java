@@ -2,6 +2,7 @@ package code.lucamarrocco.wiki.ast;
 
 import java.util.*;
 
+/** @author Luca Marrocco */
 public class List extends ListItem implements Iterable<ListItem> {
 
 	public static final int ORDERED_LIST = 1;
@@ -10,14 +11,14 @@ public class List extends ListItem implements Iterable<ListItem> {
 
 	private java.util.List<ListItem> listItems = new LinkedList<ListItem>();
 
-	public Iterator<ListItem> iterator() {
-		return listItems.iterator();
-	}
-	
 	private int type;
 
 	private Text text;
 
+	public Iterator<ListItem> iterator() {
+		return listItems.iterator();
+	}
+	
 	public List() {}
 
 	public <A> void accept(Visitor<A> visitor, A arg) {
@@ -26,7 +27,6 @@ public class List extends ListItem implements Iterable<ListItem> {
 
 	public List addListItem(ListItem listItem) {
 		listItems.add(listItem);
-
 		return this;
 	}
 
