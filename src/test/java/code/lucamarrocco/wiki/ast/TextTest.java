@@ -2,6 +2,7 @@ package code.lucamarrocco.wiki.ast;
 
 import junit.framework.TestCase;
 
+/** @author Luca Marrocco */
 public class TextTest extends TestCase {
 	private static final String VALUE = "VALUE";
 

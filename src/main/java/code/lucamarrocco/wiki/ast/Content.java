@@ -1,9 +1,10 @@
 package code.lucamarrocco.wiki.ast;
 
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
 
-public class Content extends Node  {
+/** @author Luca Marrocco */
+public class Content extends Node implements Iterable<BodyDeclaration> {
 	private List<BodyDeclaration> bodyDeclarations = new LinkedList<BodyDeclaration>();
 
 	public <A> void accept(Visitor<A> visitor, A arg) {
@@ -12,13 +13,11 @@ public class Content extends Node  {
 
 	public Content addBodyDeclaration(BodyDeclaration bodyDeclaration) {
 		addChild(bodyDeclaration);
-
 		bodyDeclarations.add(bodyDeclaration);
-
 		return this;
 	}
 
-	public List<BodyDeclaration> getBodyDeclarations() {
-		return bodyDeclarations;
+	public Iterator<BodyDeclaration> iterator() {
+		return bodyDeclarations.iterator();
 	}
 }

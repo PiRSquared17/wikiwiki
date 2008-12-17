@@ -1,28 +1,28 @@
 package code.lucamarrocco.wiki.ast;
 
-import org.jmock.*;
+import junit.framework.*;
 
+/** @author Luca Marrocco */
 public class ContentTest extends TestCase {
 	private BodyDeclaration BODY_DECLARATION = new Text();
 
 	public void testAddBodyDeclaration() {
 		Content content = new Content();
-
 		content.addBodyDeclaration(BODY_DECLARATION);
-
-		assertTrue(content.getBodyDeclarations().contains(BODY_DECLARATION));
-		assertTrue(content.getChildren().contains(BODY_DECLARATION));
-		assertEquals(1, content.getBodyDeclarations().size());
+		assertTrue(content.iterator().hasNext());
+		assertTrue(content.iterator().next().equals(BODY_DECLARATION));
 	}
 
 	public void testDefaultContent() {
 		Content content = new Content();
 
 		assertNotNull(content);
-		assertNotNull(content.getBodyDeclarations());
-		assertTrue(content.getBodyDeclarations().isEmpty());
+
 		assertTrue(content instanceof Node);
 		assertTrue(content instanceof Content);
 		assertTrue(content instanceof Node);
+
+		assertNotNull(content.iterator());
+		assertFalse(content.iterator().hasNext());
 	}
 }

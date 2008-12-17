@@ -1,5 +1,6 @@
 package code.lucamarrocco.wiki.ast;
 
+/** @author Luca Marrocco */
 public interface Visitor<A> {
 	void visit(BreakLine breakLine, A arg);
 

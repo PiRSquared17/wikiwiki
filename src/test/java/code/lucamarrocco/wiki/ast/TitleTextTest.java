@@ -2,6 +2,7 @@ package code.lucamarrocco.wiki.ast;
 
 import junit.framework.*;
 
+/** @author Luca Marrocco */
 public class TitleTextTest extends TestCase {
 	private static final int LEVEL = 2;
 

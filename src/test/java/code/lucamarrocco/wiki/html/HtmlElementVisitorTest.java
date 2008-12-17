@@ -1,23 +1,9 @@
 package code.lucamarrocco.wiki.html;
 
-import junit.framework.TestCase;
-import code.lucamarrocco.wiki.ast.BreakLine;
-import code.lucamarrocco.wiki.ast.Content;
-import code.lucamarrocco.wiki.ast.DecoratedText;
-import code.lucamarrocco.wiki.ast.BreakLine;
-import code.lucamarrocco.wiki.ast.Content;
-import code.lucamarrocco.wiki.ast.DecoratedText;
-import code.lucamarrocco.wiki.ast.LinkText;
-import code.lucamarrocco.wiki.ast.List;
-import code.lucamarrocco.wiki.ast.ListItem;
-import code.lucamarrocco.wiki.ast.Text;
-import code.lucamarrocco.wiki.ast.TitleText;
-import code.lucamarrocco.wiki.ast.LinkText;
-import code.lucamarrocco.wiki.ast.List;
-import code.lucamarrocco.wiki.ast.ListItem;
-import code.lucamarrocco.wiki.ast.Text;
-import code.lucamarrocco.wiki.ast.TitleText;
+import junit.framework.*;
+import code.lucamarrocco.wiki.ast.*;
 
+/** @author Luca Marrocco */
 public class HtmlElementVisitorTest extends TestCase {
 	private static final String VALUE = "value";
 

@@ -2,6 +2,7 @@ package code.lucamarrocco.wiki.ast;
 
 import junit.framework.*;
 
+/** @author Luca Marrocco */
 public class ListTest extends TestCase {
 	private ListItem LIST_ITEM = new ListItem();
 

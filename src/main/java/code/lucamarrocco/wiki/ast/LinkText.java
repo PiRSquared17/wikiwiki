@@ -1,5 +1,6 @@
 package code.lucamarrocco.wiki.ast;
 
+/** @author Luca Marrocco */
 public class LinkText extends BodyDeclaration {
 	private String href;
 
@@ -29,7 +30,6 @@ public class LinkText extends BodyDeclaration {
 
 	public LinkText setText(Text text) {
 		this.text = text;
-
 		return this;
 	}
 

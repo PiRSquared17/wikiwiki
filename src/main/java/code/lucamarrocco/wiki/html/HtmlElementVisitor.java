@@ -1,3 +1,4 @@
+
 package code.lucamarrocco.wiki.html;
 
 import code.lucamarrocco.wiki.ast.BodyDeclaration;
@@ -12,6 +13,7 @@ import code.lucamarrocco.wiki.ast.Text;
 import code.lucamarrocco.wiki.ast.TitleText;
 import code.lucamarrocco.wiki.ast.Visitor;
 
+/** @author Luca Marrocco */
 public class HtmlElementVisitor implements Visitor<HtmlElement> {
 	public static final String A = "a";
 
@@ -63,7 +65,7 @@ public class HtmlElementVisitor implements Visitor<HtmlElement> {
 	}
 
 	public void visit(Content content, HtmlElement htmlElement) {
-		for (BodyDeclaration bodyDeclaration : content.getBodyDeclarations())
+		for (BodyDeclaration bodyDeclaration : content)
 			visit(bodyDeclaration, htmlElement.addChild());
 	}
 

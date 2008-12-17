@@ -1,5 +1,6 @@
 package code.lucamarrocco.wiki.ast;
 
+/** @author Luca Marrocco */
 public class DecoratedText extends Text {
 
 	public static final int NORMAL = 0;
@@ -14,7 +15,7 @@ public class DecoratedText extends Text {
 
 	private Text text;
 
-	private int type = DecoratedText.NORMAL;
+	private int type = NORMAL;
 
 	public <A> void accept(Visitor<A> visitor, A arg) {
 		visitor.visit((DecoratedText) this, arg);
