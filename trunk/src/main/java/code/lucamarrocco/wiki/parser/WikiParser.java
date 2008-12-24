@@ -21,6 +21,10 @@ public final class WikiParser implements WikiParserConstants {
         return parser.Content();
     }
 
+    public static Content parse(String string) throws ParseException {
+        return parse(new ByteArrayInputStream(string.getBytes()));
+    }
+
 /*****************************************
  * THE JAVA LANGUAGE GRAMMAR STARTS HERE *
  *****************************************/
@@ -60,20 +64,20 @@ public final class WikiParser implements WikiParserConstants {
   final public BodyDeclaration BodyDeclaration() throws ParseException {
         BodyDeclaration bodyDeclaration;
     if (jj_2_4(3)) {
-      bodyDeclaration = List();
-                                   {if (true) return bodyDeclaration;}
-    } else if (jj_2_5(3)) {
-      bodyDeclaration = LinkText();
-                                       {if (true) return bodyDeclaration;}
-    } else if (jj_2_6(3)) {
-      bodyDeclaration = TitleText(0);
-                                         {if (true) return bodyDeclaration;}
-    } else if (jj_2_7(3)) {
-      bodyDeclaration = DecoratedText();
-                                            {if (true) return bodyDeclaration;}
-    } else if (jj_2_8(3)) {
       bodyDeclaration = Text();
                                    {if (true) return bodyDeclaration;}
+    } else if (jj_2_5(3)) {
+      bodyDeclaration = List();
+                                   {if (true) return bodyDeclaration;}
+    } else if (jj_2_6(3)) {
+      bodyDeclaration = LinkText();
+                                       {if (true) return bodyDeclaration;}
+    } else if (jj_2_7(3)) {
+      bodyDeclaration = TitleText(0);
+                                         {if (true) return bodyDeclaration;}
+    } else if (jj_2_8(3)) {
+      bodyDeclaration = DecoratedText();
+                                            {if (true) return bodyDeclaration;}
     } else if (jj_2_9(3)) {
       bodyDeclaration = BreakLine();
                                         {if (true) return bodyDeclaration;}
@@ -101,7 +105,7 @@ public final class WikiParser implements WikiParserConstants {
                                                                      {if (true) return titleText;}
     } else if (jj_2_13(3)) {
       text = Text();
-                        {if (true) return new TitleText().setLevel(level).setText(text);}
+                        {if (true) return new TitleText(level, text);}
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -113,29 +117,29 @@ public final class WikiParser implements WikiParserConstants {
         DecoratedText decoratedText;
         Text text;
     if (jj_2_22(3)) {
-      jj_consume_token(BOLD);
+      jj_consume_token(BOLDITALIC);
       decoratedText = DecoratedText();
       if (jj_2_14(3)) {
-        jj_consume_token(BOLD);
+        jj_consume_token(BOLDITALIC);
       } else if (jj_2_15(3)) {
         End();
       } else {
         jj_consume_token(-1);
         throw new ParseException();
       }
-                                                                  {if (true) return new DecoratedBoldText().setText(decoratedText.getText());}
+                                                                          {if (true) return new DecoratedBoldText(new DecoratedItalicText(decoratedText));}
     } else if (jj_2_23(3)) {
-      jj_consume_token(BOLDITALIC);
+      jj_consume_token(BOLD);
       decoratedText = DecoratedText();
       if (jj_2_16(3)) {
-        jj_consume_token(BOLDITALIC);
+        jj_consume_token(BOLD);
       } else if (jj_2_17(3)) {
         End();
       } else {
         jj_consume_token(-1);
         throw new ParseException();
       }
-                                                                               {if (true) return new DecoratedBoldItalicText().setText(decoratedText.getText());}
+                                                                  {if (true) return new DecoratedBoldText(decoratedText);}
     } else if (jj_2_24(3)) {
       jj_consume_token(ITALIC);
       decoratedText = DecoratedText();
@@ -147,7 +151,7 @@ public final class WikiParser implements WikiParserConstants {
         jj_consume_token(-1);
         throw new ParseException();
       }
-                                                                      {if (true) return new DecoratedItalicText().setText(decoratedText.getText());}
+                                                                      {if (true) return new DecoratedItalicText(decoratedText);}
     } else if (jj_2_25(3)) {
       jj_consume_token(UNDERLINE);
       decoratedText = DecoratedText();
@@ -159,10 +163,10 @@ public final class WikiParser implements WikiParserConstants {
         jj_consume_token(-1);
         throw new ParseException();
       }
-                                                                           {if (true) return new DecoratedUnderlineText().setText(decoratedText.getText());}
+                                                                           {if (true) return new DecoratedUnderlineText(decoratedText);}
     } else if (jj_2_26(3)) {
       text = Text();
-                        {if (true) return new DecoratedNormalText().setText(text);}
+                        {if (true) return new DecoratedNormalText(text);}
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -186,17 +190,17 @@ public final class WikiParser implements WikiParserConstants {
   }
 
   final public List UnorderedList() throws ParseException {
-        Text text;
-        List list = new List().setType(List.UNORDERED_LIST);
+        DecoratedText text;
+        List list = new UnorderedList();
         List nestedList;
     if (jj_2_32(3)) {
       jj_consume_token(ULI);
       text = DecoratedText();
-                                       list.addListItem(new ListItem().setText(text));
+                                       list.addListItem(new ListItem(text));
       if (jj_2_29(3)) {
         jj_consume_token(BREAKLINE);
         nestedList = NestedUnorderedList();
-                                                                                                                                           list.addListItem(nestedList);
+                                                                                                                                 list.addListItem(nestedList);
       } else {
         ;
       }
@@ -210,23 +214,23 @@ public final class WikiParser implements WikiParserConstants {
         jj_consume_token(BREAKLINE);
         jj_consume_token(ULI);
         text = DecoratedText();
-                                                                                                                                                                                                                        list.addListItem(new ListItem().setText(text));
+                                                                                                                                                                                                              list.addListItem(new ListItem(text));
       }
       End();
-                                                                                                                                                                                                                                                                                     {if (true) return list;}
+                                                                                                                                                                                                                                                                 {if (true) return list;}
     } else if (jj_2_33(3)) {
       jj_consume_token(ULI);
       text = DecoratedText();
-                                       list.addListItem(new ListItem().setText(text));
+                                       list.addListItem(new ListItem(text));
       if (jj_2_31(3)) {
         jj_consume_token(BREAKLINE);
         nestedList = NestedUnorderedList();
-                                                                                                                                           list.addListItem(nestedList);
+                                                                                                                                 list.addListItem(nestedList);
       } else {
         ;
       }
       End();
-                                                                                                                                                                                    {if (true) return list;}
+                                                                                                                                                                          {if (true) return list;}
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -235,12 +239,12 @@ public final class WikiParser implements WikiParserConstants {
   }
 
   final public List NestedUnorderedList() throws ParseException {
-        Text text;
-        List list = new List().setType(List.UNORDERED_LIST);
+        DecoratedText text;
+        List list = new UnorderedList();
     if (jj_2_36(3)) {
       jj_consume_token(ULIULI);
       text = DecoratedText();
-                                          list.addListItem(new ListItem().setText(text));
+                                          list.addListItem(new ListItem(text));
       label_3:
       while (true) {
         if (jj_2_34(3)) {
@@ -251,13 +255,13 @@ public final class WikiParser implements WikiParserConstants {
         jj_consume_token(BREAKLINE);
         jj_consume_token(ULIULI);
         text = DecoratedText();
-                                                                                                                                           list.addListItem(new ListItem().setText(text));
+                                                                                                                                 list.addListItem(new ListItem(text));
       }
-                                                                                                                                                                                                  {if (true) return list;}
+                                                                                                                                                                              {if (true) return list;}
     } else if (jj_2_37(3)) {
       jj_consume_token(ULIULI);
       text = DecoratedText();
-                                          list.addListItem(new ListItem().setText(text));
+                                          list.addListItem(new ListItem(text));
       label_4:
       while (true) {
         if (jj_2_35(3)) {
@@ -268,13 +272,13 @@ public final class WikiParser implements WikiParserConstants {
         jj_consume_token(BREAKLINE);
         jj_consume_token(ULIULI);
         text = DecoratedText();
-                                                                                                                                           list.addListItem(new ListItem().setText(text));
+                                                                                                                                 list.addListItem(new ListItem(text));
       }
-                                                                                                                                                                                                  {if (true) return list;}
+                                                                                                                                                                              {if (true) return list;}
     } else if (jj_2_38(3)) {
       jj_consume_token(ULIULI);
       text = DecoratedText();
-                                          {if (true) return list.addListItem(new ListItem().setText(text));}
+                                          {if (true) return list.addListItem(new ListItem(text));}
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -283,17 +287,17 @@ public final class WikiParser implements WikiParserConstants {
   }
 
   final public List OrderedList() throws ParseException {
-        Text text;
-        List list = new List().setType(List.ORDERED_LIST);
+        DecoratedText text;
+        List list = new OrderedList();
         List nestedList;
     if (jj_2_42(3)) {
       jj_consume_token(OLI);
       text = DecoratedText();
-                                       list.addListItem(new ListItem().setText(text));
+                                       list.addListItem(new ListItem(text));
       if (jj_2_39(3)) {
         jj_consume_token(BREAKLINE);
         nestedList = NestedOrderedList();
-                                                                                                                                         list.addListItem(nestedList);
+                                                                                                                               list.addListItem(nestedList);
       } else {
         ;
       }
@@ -307,23 +311,23 @@ public final class WikiParser implements WikiParserConstants {
         jj_consume_token(BREAKLINE);
         jj_consume_token(OLI);
         text = DecoratedText();
-                                                                                                                                                                                                                      list.addListItem(new ListItem().setText(text));
+                                                                                                                                                                                                            list.addListItem(new ListItem(text));
       }
       End();
-                                                                                                                                                                                                                                                                                   {if (true) return list;}
+                                                                                                                                                                                                                                                               {if (true) return list;}
     } else if (jj_2_43(3)) {
       jj_consume_token(OLI);
       text = DecoratedText();
-                                       list.addListItem(new ListItem().setText(text));
+                                       list.addListItem(new ListItem(text));
       if (jj_2_41(3)) {
         jj_consume_token(BREAKLINE);
         nestedList = NestedOrderedList();
-                                                                                                                                         list.addListItem(nestedList);
+                                                                                                                               list.addListItem(nestedList);
       } else {
         ;
       }
       End();
-                                                                                                                                                                                  {if (true) return list;}
+                                                                                                                                                                        {if (true) return list;}
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -332,12 +336,12 @@ public final class WikiParser implements WikiParserConstants {
   }
 
   final public List NestedOrderedList() throws ParseException {
-        Text text;
-        List list = new List().setType(List.ORDERED_LIST);
+        DecoratedText text;
+        List list = new OrderedList();
     if (jj_2_46(3)) {
       jj_consume_token(OLIOLI);
       text = DecoratedText();
-                                          list.addListItem(new ListItem().setText(text));
+                                          list.addListItem(new ListItem(text));
       label_6:
       while (true) {
         if (jj_2_44(3)) {
@@ -348,13 +352,13 @@ public final class WikiParser implements WikiParserConstants {
         jj_consume_token(BREAKLINE);
         jj_consume_token(OLIOLI);
         text = DecoratedText();
-                                                                                                                                           list.addListItem(new ListItem().setText(text));
+                                                                                                                                 list.addListItem(new ListItem(text));
       }
-                                                                                                                                                                                                  {if (true) return list;}
+                                                                                                                                                                              {if (true) return list;}
     } else if (jj_2_47(3)) {
       jj_consume_token(OLIOLI);
       text = DecoratedText();
-                                          list.addListItem(new ListItem().setText(text));
+                                          list.addListItem(new ListItem(text));
       label_7:
       while (true) {
         if (jj_2_45(3)) {
@@ -365,13 +369,13 @@ public final class WikiParser implements WikiParserConstants {
         jj_consume_token(BREAKLINE);
         jj_consume_token(OLIOLI);
         text = DecoratedText();
-                                                                                                                                           list.addListItem(new ListItem().setText(text));
+                                                                                                                                 list.addListItem(new ListItem(text));
       }
-                                                                                                                                                                                                  {if (true) return list;}
+                                                                                                                                                                              {if (true) return list;}
     } else if (jj_2_48(3)) {
       jj_consume_token(OLIOLI);
       text = DecoratedText();
-                                          {if (true) return list.addListItem(new ListItem().setText(text));}
+                                          {if (true) return list.addListItem(new ListItem(text));}
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -416,7 +420,7 @@ public final class WikiParser implements WikiParserConstants {
         jj_consume_token(-1);
         throw new ParseException();
       }
-                                                                             {if (true) return new LinkText().setHref(string).setText(new Text().setValue(string));}
+                                                                             {if (true) return new LinkText().setHref(string).setText(new Text(string));}
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -427,10 +431,10 @@ public final class WikiParser implements WikiParserConstants {
   final public LinkText HyperLink() throws ParseException {
     if (jj_2_57(3)) {
       jj_consume_token(HTTPSTRING);
-                       {if (true) return new LinkText().setHref(token.image).setText(new Text().setValue(token.image));}
+                       {if (true) return new LinkText().setHref(token.image).setText(new Text(token.image));}
     } else if (jj_2_58(3)) {
       jj_consume_token(WIKIWORD);
-                     {if (true) return new LinkText().setHref(token.image).setText(new Text().setValue(token.image));}
+                     {if (true) return new LinkText().setHref(token.image).setText(new Text(token.image));}
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -452,14 +456,14 @@ public final class WikiParser implements WikiParserConstants {
           break label_8;
         }
       }
-          {if (true) return new Text().setValue(stringBuffer.toString().replaceAll(" $", ""));}
+          {if (true) return new Text(stringBuffer.toString().replaceAll(" $", ""));}
     } else if (jj_2_61(3)) {
       jj_consume_token(NOT);
       jj_consume_token(STRING);
-                         {if (true) return new Text().setValue(token.image);}
+                         {if (true) return new Text(token.image);}
     } else if (jj_2_62(3)) {
       jj_consume_token(20);
-              {if (true) return new Text().setValue("'");}
+              {if (true) return new Text("'");}
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -907,33 +911,9 @@ public final class WikiParser implements WikiParserConstants {
     finally { jj_save(61, xla); }
   }
 
-  final private boolean jj_3R_19() {
-    Token xsp;
-    xsp = jj_scanpos;
-    if (jj_3_36()) {
-    jj_scanpos = xsp;
-    if (jj_3_37()) {
-    jj_scanpos = xsp;
-    if (jj_3_38()) return true;
-    }
-    }
-    return false;
-  }
-
-  final private boolean jj_3_36() {
-    if (jj_scan_token(ULIULI)) return true;
-    if (jj_3R_13()) return true;
-    Token xsp;
-    while (true) {
-      xsp = jj_scanpos;
-      if (jj_3_34()) { jj_scanpos = xsp; break; }
-    }
-    return false;
-  }
-
   final private boolean jj_3_33() {
     if (jj_scan_token(ULI)) return true;
-    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_31()) jj_scanpos = xsp;
@@ -958,7 +938,7 @@ public final class WikiParser implements WikiParserConstants {
 
   final private boolean jj_3_32() {
     if (jj_scan_token(ULI)) return true;
-    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_29()) jj_scanpos = xsp;
@@ -967,13 +947,6 @@ public final class WikiParser implements WikiParserConstants {
       if (jj_3_30()) { jj_scanpos = xsp; break; }
     }
     if (jj_3R_16()) return true;
-    return false;
-  }
-
-  final private boolean jj_3_40() {
-    if (jj_scan_token(BREAKLINE)) return true;
-    if (jj_scan_token(OLI)) return true;
-    if (jj_3R_13()) return true;
     return false;
   }
 
@@ -987,7 +960,7 @@ public final class WikiParser implements WikiParserConstants {
     return false;
   }
 
-  final private boolean jj_3R_10() {
+  final private boolean jj_3R_11() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_27()) {
@@ -997,14 +970,21 @@ public final class WikiParser implements WikiParserConstants {
     return false;
   }
 
-  final private boolean jj_3_26() {
+  final private boolean jj_3_40() {
+    if (jj_scan_token(BREAKLINE)) return true;
+    if (jj_scan_token(OLI)) return true;
     if (jj_3R_14()) return true;
+    return false;
+  }
+
+  final private boolean jj_3_26() {
+    if (jj_3R_10()) return true;
     return false;
   }
 
   final private boolean jj_3_25() {
     if (jj_scan_token(UNDERLINE)) return true;
-    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_20()) {
@@ -1016,7 +996,7 @@ public final class WikiParser implements WikiParserConstants {
 
   final private boolean jj_3_24() {
     if (jj_scan_token(ITALIC)) return true;
-    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_18()) {
@@ -1027,8 +1007,8 @@ public final class WikiParser implements WikiParserConstants {
   }
 
   final private boolean jj_3_23() {
-    if (jj_scan_token(BOLDITALIC)) return true;
-    if (jj_3R_13()) return true;
+    if (jj_scan_token(BOLD)) return true;
+    if (jj_3R_14()) return true;
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_16()) {
@@ -1038,16 +1018,9 @@ public final class WikiParser implements WikiParserConstants {
     return false;
   }
 
-  final private boolean jj_3_30() {
-    if (jj_scan_token(BREAKLINE)) return true;
-    if (jj_scan_token(ULI)) return true;
-    if (jj_3R_13()) return true;
-    return false;
-  }
-
   final private boolean jj_3_22() {
-    if (jj_scan_token(BOLD)) return true;
-    if (jj_3R_13()) return true;
+    if (jj_scan_token(BOLDITALIC)) return true;
+    if (jj_3R_14()) return true;
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_14()) {
@@ -1057,7 +1030,7 @@ public final class WikiParser implements WikiParserConstants {
     return false;
   }
 
-  final private boolean jj_3R_13() {
+  final private boolean jj_3R_14() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_22()) {
@@ -1076,14 +1049,21 @@ public final class WikiParser implements WikiParserConstants {
     return false;
   }
 
-  final private boolean jj_3_13() {
+  final private boolean jj_3_30() {
+    if (jj_scan_token(BREAKLINE)) return true;
+    if (jj_scan_token(ULI)) return true;
     if (jj_3R_14()) return true;
+    return false;
+  }
+
+  final private boolean jj_3_13() {
+    if (jj_3R_10()) return true;
     return false;
   }
 
   final private boolean jj_3_12() {
     if (jj_scan_token(TITLE)) return true;
-    if (jj_3R_12()) return true;
+    if (jj_3R_13()) return true;
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_10()) {
@@ -1093,7 +1073,7 @@ public final class WikiParser implements WikiParserConstants {
     return false;
   }
 
-  final private boolean jj_3R_12() {
+  final private boolean jj_3R_13() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_12()) {
@@ -1170,22 +1150,8 @@ public final class WikiParser implements WikiParserConstants {
     return false;
   }
 
-  final private boolean jj_3_45() {
-    if (jj_scan_token(BREAKLINE)) return true;
-    if (jj_scan_token(OLIOLI)) return true;
-    if (jj_3R_13()) return true;
-    return false;
-  }
-
   final private boolean jj_3_2() {
     if (jj_scan_token(BREAKLINE)) return true;
-    return false;
-  }
-
-  final private boolean jj_3_44() {
-    if (jj_scan_token(BREAKLINE)) return true;
-    if (jj_scan_token(OLIOLI)) return true;
-    if (jj_3R_13()) return true;
     return false;
   }
 
@@ -1209,6 +1175,25 @@ public final class WikiParser implements WikiParserConstants {
     return false;
   }
 
+  final private boolean jj_3_45() {
+    if (jj_scan_token(BREAKLINE)) return true;
+    if (jj_scan_token(OLIOLI)) return true;
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
+  final private boolean jj_3_44() {
+    if (jj_scan_token(BREAKLINE)) return true;
+    if (jj_scan_token(OLIOLI)) return true;
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
+  final private boolean jj_3_52() {
+    if (jj_scan_token(RBRACKET)) return true;
+    return false;
+  }
+
   final private boolean jj_3_41() {
     if (jj_scan_token(BREAKLINE)) return true;
     if (jj_3R_20()) return true;
@@ -1221,22 +1206,17 @@ public final class WikiParser implements WikiParserConstants {
     return false;
   }
 
-  final private boolean jj_3_52() {
-    if (jj_scan_token(RBRACKET)) return true;
-    return false;
-  }
-
   final private boolean jj_3_35() {
     if (jj_scan_token(BREAKLINE)) return true;
     if (jj_scan_token(ULIULI)) return true;
-    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
     return false;
   }
 
   final private boolean jj_3_34() {
     if (jj_scan_token(BREAKLINE)) return true;
     if (jj_scan_token(ULIULI)) return true;
-    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
     return false;
   }
 
@@ -1245,20 +1225,8 @@ public final class WikiParser implements WikiParserConstants {
     return false;
   }
 
-  final private boolean jj_3_31() {
-    if (jj_scan_token(BREAKLINE)) return true;
-    if (jj_3R_19()) return true;
-    return false;
-  }
-
   final private boolean jj_3_49() {
-    if (jj_3R_14()) return true;
-    return false;
-  }
-
-  final private boolean jj_3_29() {
-    if (jj_scan_token(BREAKLINE)) return true;
-    if (jj_3R_19()) return true;
+    if (jj_3R_10()) return true;
     return false;
   }
 
@@ -1278,6 +1246,12 @@ public final class WikiParser implements WikiParserConstants {
     return false;
   }
 
+  final private boolean jj_3_31() {
+    if (jj_scan_token(BREAKLINE)) return true;
+    if (jj_3R_19()) return true;
+    return false;
+  }
+
   final private boolean jj_3_60() {
     Token xsp;
     if (jj_3_59()) return true;
@@ -1288,7 +1262,7 @@ public final class WikiParser implements WikiParserConstants {
     return false;
   }
 
-  final private boolean jj_3R_14() {
+  final private boolean jj_3R_10() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_60()) {
@@ -1298,6 +1272,12 @@ public final class WikiParser implements WikiParserConstants {
     if (jj_3_62()) return true;
     }
     }
+    return false;
+  }
+
+  final private boolean jj_3_29() {
+    if (jj_scan_token(BREAKLINE)) return true;
+    if (jj_3R_19()) return true;
     return false;
   }
 
@@ -1352,7 +1332,7 @@ public final class WikiParser implements WikiParserConstants {
     return false;
   }
 
-  final private boolean jj_3R_11() {
+  final private boolean jj_3R_12() {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_54()) {
@@ -1367,13 +1347,13 @@ public final class WikiParser implements WikiParserConstants {
 
   final private boolean jj_3_48() {
     if (jj_scan_token(OLIOLI)) return true;
-    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
     return false;
   }
 
   final private boolean jj_3_47() {
     if (jj_scan_token(OLIOLI)) return true;
-    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
@@ -1400,14 +1380,9 @@ public final class WikiParser implements WikiParserConstants {
     return false;
   }
 
-  final private boolean jj_3_17() {
-    if (jj_3R_16()) return true;
-    return false;
-  }
-
   final private boolean jj_3_46() {
     if (jj_scan_token(OLIOLI)) return true;
-    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
@@ -1421,9 +1396,14 @@ public final class WikiParser implements WikiParserConstants {
     return false;
   }
 
+  final private boolean jj_3_15() {
+    if (jj_3R_16()) return true;
+    return false;
+  }
+
   final private boolean jj_3_43() {
     if (jj_scan_token(OLI)) return true;
-    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_41()) jj_scanpos = xsp;
@@ -1433,7 +1413,7 @@ public final class WikiParser implements WikiParserConstants {
 
   final private boolean jj_3_42() {
     if (jj_scan_token(OLI)) return true;
-    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3_39()) jj_scanpos = xsp;
@@ -1460,13 +1440,8 @@ public final class WikiParser implements WikiParserConstants {
     return false;
   }
 
-  final private boolean jj_3_15() {
+  final private boolean jj_3_17() {
     if (jj_3R_16()) return true;
-    return false;
-  }
-
-  final private boolean jj_3_16() {
-    if (jj_scan_token(BOLDITALIC)) return true;
     return false;
   }
 
@@ -1477,13 +1452,23 @@ public final class WikiParser implements WikiParserConstants {
 
   final private boolean jj_3_38() {
     if (jj_scan_token(ULIULI)) return true;
-    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
+    return false;
+  }
+
+  final private boolean jj_3_14() {
+    if (jj_scan_token(BOLDITALIC)) return true;
+    return false;
+  }
+
+  final private boolean jj_3_16() {
+    if (jj_scan_token(BOLD)) return true;
     return false;
   }
 
   final private boolean jj_3_37() {
     if (jj_scan_token(ULIULI)) return true;
-    if (jj_3R_13()) return true;
+    if (jj_3R_14()) return true;
     Token xsp;
     while (true) {
       xsp = jj_scanpos;
@@ -1497,8 +1482,27 @@ public final class WikiParser implements WikiParserConstants {
     return false;
   }
 
-  final private boolean jj_3_14() {
-    if (jj_scan_token(BOLD)) return true;
+  final private boolean jj_3R_19() {
+    Token xsp;
+    xsp = jj_scanpos;
+    if (jj_3_36()) {
+    jj_scanpos = xsp;
+    if (jj_3_37()) {
+    jj_scanpos = xsp;
+    if (jj_3_38()) return true;
+    }
+    }
+    return false;
+  }
+
+  final private boolean jj_3_36() {
+    if (jj_scan_token(ULIULI)) return true;
+    if (jj_3R_14()) return true;
+    Token xsp;
+    while (true) {
+      xsp = jj_scanpos;
+      if (jj_3_34()) { jj_scanpos = xsp; break; }
+    }
     return false;
   }
 

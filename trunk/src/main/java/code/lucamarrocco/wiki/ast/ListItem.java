@@ -1,19 +1,16 @@
 package code.lucamarrocco.wiki.ast;
 
 /** @author Luca Marrocco */
-public class ListItem extends BodyDeclaration {
-	private Text text = new Text();
+public class ListItem extends Content {
+
+	public ListItem(DecoratedText decoratedText) {
+		addBodyDeclaration(decoratedText);
+	}
+
+	public ListItem() {}
 
 	public <A> void accept(Visitor<A> visitor, A arg) {
-		visitor.visit((ListItem) this, arg);
-	}
+		visitor.visit(this, arg);
+	};
 
-	public Text getText() {
-		return text;
-	}
-
-	public ListItem setText(Text text) {
-		this.text = text;
-		return this;
-	}
 }

@@ -2,13 +2,11 @@ package code.lucamarrocco.wiki.ast;
 
 /** @author Luca Marrocco */
 public interface Visitor<A> {
+	void visit(Content content, A arg);
+	
 	void visit(BreakLine breakLine, A arg);
 
-	void visit(Content content, A arg);
-
 	void visit(DecoratedBoldText decoratedText, A arg);
-
-	void visit(DecoratedBoldItalicText decoratedText, A arg);
 
 	void visit(DecoratedItalicText decoratedText, A arg);
 
@@ -18,7 +16,9 @@ public interface Visitor<A> {
 
 	void visit(LinkText linkText, A arg);
 
-	void visit(List list, A arg);
+	void visit(OrderedList list, A arg);
+
+	void visit(UnorderedList list, A arg);
 
 	void visit(ListItem listItem, A arg);
 

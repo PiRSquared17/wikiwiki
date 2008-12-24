@@ -7,7 +7,7 @@ public class TextTest extends TestCase {
 	private static final String VALUE = "VALUE";
 
 	public void testDefaultText() {
-		Text text = new Text();
+		Text text = new Text(VALUE);
 
 		assertNotNull(text);
 		assertTrue(text instanceof Node);
@@ -16,9 +16,6 @@ public class TextTest extends TestCase {
 	}
 
 	public void testSetValue() {
-		Text text = new Text();
-
-		assertEquals(text, text.setValue(VALUE));
-		assertEquals(VALUE, text.getValue());
+		assertEquals(VALUE, new Text(VALUE).toString());
 	}
 }

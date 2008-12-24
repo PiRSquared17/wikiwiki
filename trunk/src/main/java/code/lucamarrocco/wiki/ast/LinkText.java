@@ -7,7 +7,7 @@ public class LinkText extends BodyDeclaration {
 	private Text text = new Text();
 
 	public <A> void accept(Visitor<A> visitor, A arg) {
-		visitor.visit((LinkText) this, arg);
+		visitor.visit(this, arg);
 	}
 
 	public String getHref() {
@@ -16,10 +16,6 @@ public class LinkText extends BodyDeclaration {
 
 	public Text getText() {
 		return text;
-	}
-
-	public String getValue() {
-		return text.getValue();
 	}
 
 	public LinkText setHref(String href) {
@@ -31,9 +27,5 @@ public class LinkText extends BodyDeclaration {
 	public LinkText setText(Text text) {
 		this.text = text;
 		return this;
-	}
-
-	public Text setValue(String value) {
-		return text.setValue(value);
 	}
 }
