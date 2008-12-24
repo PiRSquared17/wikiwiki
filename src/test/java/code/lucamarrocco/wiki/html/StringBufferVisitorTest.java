@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 import org.junit.*;
 
 import code.lucamarrocco.wiki.ast.*;
+
 /** @author Luca Marrocco */
 public class StringBufferVisitorTest {
 	private String visit(String string) {
@@ -15,7 +16,7 @@ public class StringBufferVisitorTest {
 		parse(string).accept(visitor, stringBuffer);
 		return stringBuffer.toString();
 	}
-	
+
 	@Test
 	public void visitContent() {
 		assertThat(visit("value"), is(equalTo("value")));
@@ -90,10 +91,10 @@ public class StringBufferVisitorTest {
 	public void visitTitleText() {
 		assertThat(visit("=value"), is(equalTo("<h1>value</h1>")));
 		assertThat(visit("=value="), is(equalTo("<h1>value</h1>")));
-		
+
 		assertThat(visit("==value"), is(equalTo("<h2>value</h2>")));
 		assertThat(visit("==value=="), is(equalTo("<h2>value</h2>")));
-		
+
 		assertThat(visit("===value"), is(equalTo("<h3>value</h3>")));
 		assertThat(visit("===value==="), is(equalTo("<h3>value</h3>")));
 	}
