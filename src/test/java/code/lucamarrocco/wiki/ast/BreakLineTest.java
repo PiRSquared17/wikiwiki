@@ -1,6 +1,6 @@
 package code.lucamarrocco.wiki.ast;
 
-import junit.framework.TestCase;
+import junit.framework.*;
 
 /** @author Luca Marrocco */
 public class BreakLineTest extends TestCase {
