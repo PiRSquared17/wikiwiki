@@ -5,15 +5,17 @@ public class Text extends BodyDeclaration {
 	private String value;
 
 	public <A> void accept(Visitor<A> visitor, A arg) {
-		visitor.visit((Text) this, arg);
+		visitor.visit(this, arg);
 	}
 
-	public String getValue() {
-		return value;
-	}
+	protected Text() {}
 
-	public Text setValue(String value) {
+	public Text(String value) {
 		this.value = value;
-		return this;
+	}
+
+	@Override
+	public String toString() {
+		return value;
 	}
 }

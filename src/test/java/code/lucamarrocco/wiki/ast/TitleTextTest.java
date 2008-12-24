@@ -9,7 +9,7 @@ public class TitleTextTest extends TestCase {
 	private Text TEXT = new Text();
 
 	public void testDefaultTitleText() {
-		TitleText title = new TitleText();
+		TitleText title = new TitleText(LEVEL, TEXT);
 
 		assertNotNull(title);
 		assertTrue(title instanceof Node);
@@ -18,16 +18,12 @@ public class TitleTextTest extends TestCase {
 	}
 
 	public void testSetLevel() {
-		TitleText title = new TitleText();
-
-		assertEquals(title, title.setLevel(LEVEL));
+		TitleText title = new TitleText(LEVEL, TEXT);
 		assertEquals(LEVEL, title.getLevel());
 	}
 
 	public void testSetText() {
-		TitleText title = new TitleText();
-
-		assertEquals(title, title.setText(TEXT));
-		assertEquals(TEXT, title.getText());
+		TitleText title = new TitleText(LEVEL, TEXT);
+		assertEquals(TEXT, title.iterator().next());
 	}
 }

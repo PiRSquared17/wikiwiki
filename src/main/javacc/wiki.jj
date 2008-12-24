@@ -32,6 +32,10 @@ public final class WikiParser {
         }
         return parser.Content();
     }
+    
+    public static Content parse(String string) throws ParseException {
+    	return parse(new ByteArrayInputStream(string.getBytes()));
+    }
 }
 PARSER_END(WikiParser)
 
@@ -108,6 +112,8 @@ BodyDeclaration BodyDeclaration():
 	BodyDeclaration bodyDeclaration;
 }
 {
+	bodyDeclaration = Text() { return bodyDeclaration; }
+	|
 	bodyDeclaration = List() { return bodyDeclaration; }
 	|
 	bodyDeclaration = LinkText() { return bodyDeclaration; }
@@ -115,8 +121,6 @@ BodyDeclaration BodyDeclaration():
 	bodyDeclaration = TitleText(0) { return bodyDeclaration; }
 	|
 	bodyDeclaration = DecoratedText() { return bodyDeclaration; }
-	|
-	bodyDeclaration = Text() { return bodyDeclaration; }
 	|
 	bodyDeclaration = BreakLine() { return bodyDeclaration; }
 }
@@ -129,7 +133,7 @@ TitleText TitleText(int level):
 {
 	<TITLE> titleText = TitleText(level + 1) (<TITLE> | End()) { return titleText; }
 	|
-	text = Text() { return new TitleText().setLevel(level).setText(text); }
+	text = Text() { return new TitleText(level, text); }
 }
 
 
@@ -139,15 +143,15 @@ DecoratedText DecoratedText():
 	Text text;
 }
 {
-	<BOLD> decoratedText = DecoratedText() (<BOLD> | End()) { return new DecoratedBoldText().setText(decoratedText.getText()); }
+    <BOLDITALIC> decoratedText = DecoratedText() (<BOLDITALIC> | End()) { return new DecoratedBoldText(new DecoratedItalicText(decoratedText)); }
+    |
+	<BOLD> decoratedText = DecoratedText() (<BOLD> | End()) { return new DecoratedBoldText(decoratedText); }
 	|
-	<BOLDITALIC> decoratedText = DecoratedText()  (<BOLDITALIC> | End()) { return new DecoratedBoldItalicText().setText(decoratedText.getText()); }
+	<ITALIC> decoratedText = DecoratedText()  (<ITALIC> | End()){ return new DecoratedItalicText(decoratedText); }
 	|
-	<ITALIC> decoratedText = DecoratedText()  (<ITALIC> | End()){ return new DecoratedItalicText().setText(decoratedText.getText()); }
+	<UNDERLINE> decoratedText = DecoratedText() (<UNDERLINE> | End()){ return new DecoratedUnderlineText(decoratedText); }
 	|
-	<UNDERLINE> decoratedText = DecoratedText() (<UNDERLINE> | End()){ return new DecoratedUnderlineText().setText(decoratedText.getText()); }
-	|
-	text = Text() { return new DecoratedNormalText().setText(text); }
+	text = Text() { return new DecoratedNormalText(text); }
 }
 
 List List():
@@ -162,52 +166,52 @@ List List():
 
 List UnorderedList():
 {
-	Text text;
-	List list = new List().setType(List.UNORDERED_LIST);
+	DecoratedText text;
+	List list = new UnorderedList();
 	List nestedList;
 }
 {
-	<ULI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } [<BREAKLINE> nestedList = NestedUnorderedList() { list.addListItem(nestedList); }] (<BREAKLINE> <ULI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } )* End() { return list; }
+	<ULI> text = DecoratedText() { list.addListItem(new ListItem(text)); } [<BREAKLINE> nestedList = NestedUnorderedList() { list.addListItem(nestedList); }] (<BREAKLINE> <ULI> text = DecoratedText() { list.addListItem(new ListItem(text)); } )* End() { return list; }
 	|
-	<ULI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } [<BREAKLINE> nestedList = NestedUnorderedList() { list.addListItem(nestedList); }] End() { return list; }
+	<ULI> text = DecoratedText() { list.addListItem(new ListItem(text)); } [<BREAKLINE> nestedList = NestedUnorderedList() { list.addListItem(nestedList); }] End() { return list; }
 }
 
 List NestedUnorderedList():
 {
-	Text text;
-	List list = new List().setType(List.UNORDERED_LIST);
+	DecoratedText text;
+	List list = new UnorderedList();
 }
 {
-	<ULIULI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } (<BREAKLINE> <ULIULI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } )* { return list; }
+	<ULIULI> text = DecoratedText() { list.addListItem(new ListItem(text)); } (<BREAKLINE> <ULIULI> text = DecoratedText() { list.addListItem(new ListItem(text)); } )* { return list; }
 	|
-	<ULIULI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } (<BREAKLINE> <ULIULI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } )* { return list; }
+	<ULIULI> text = DecoratedText() { list.addListItem(new ListItem(text)); } (<BREAKLINE> <ULIULI> text = DecoratedText() { list.addListItem(new ListItem(text)); } )* { return list; }
 	|
-	<ULIULI> text = DecoratedText() { return list.addListItem(new ListItem().setText(text)); }
+	<ULIULI> text = DecoratedText() { return list.addListItem(new ListItem(text)); }
 }
 
 List OrderedList():
 {
-	Text text;
-	List list = new List().setType(List.ORDERED_LIST);
+	DecoratedText text;
+	List list = new OrderedList();
 	List nestedList;
 }
 {
-	<OLI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } [<BREAKLINE> nestedList = NestedOrderedList() { list.addListItem(nestedList); }] (<BREAKLINE> <OLI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } )* End() { return list; }
+	<OLI> text = DecoratedText() { list.addListItem(new ListItem(text)); } [<BREAKLINE> nestedList = NestedOrderedList() { list.addListItem(nestedList); }] (<BREAKLINE> <OLI> text = DecoratedText() { list.addListItem(new ListItem(text)); } )* End() { return list; }
 	|
-	<OLI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } [<BREAKLINE> nestedList = NestedOrderedList() { list.addListItem(nestedList); }] End() { return list; }
+	<OLI> text = DecoratedText() { list.addListItem(new ListItem(text)); } [<BREAKLINE> nestedList = NestedOrderedList() { list.addListItem(nestedList); }] End() { return list; }
 }
 
 List NestedOrderedList():
 {
-	Text text;
-	List list = new List().setType(List.ORDERED_LIST);
+	DecoratedText text;
+	List list = new OrderedList();
 }
 {
-	<OLIOLI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } (<BREAKLINE> <OLIOLI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } )* { return list; }
+	<OLIOLI> text = DecoratedText() { list.addListItem(new ListItem(text)); } (<BREAKLINE> <OLIOLI> text = DecoratedText() { list.addListItem(new ListItem(text)); } )* { return list; }
 	|
-	<OLIOLI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } (<BREAKLINE> <OLIOLI> text = DecoratedText() { list.addListItem(new ListItem().setText(text)); } )* { return list; }
+	<OLIOLI> text = DecoratedText() { list.addListItem(new ListItem(text)); } (<BREAKLINE> <OLIOLI> text = DecoratedText() { list.addListItem(new ListItem(text)); } )* { return list; }
 	|
-	<OLIOLI> text = DecoratedText() { return list.addListItem(new ListItem().setText(text)); }
+	<OLIOLI> text = DecoratedText() { return list.addListItem(new ListItem(text)); }
 }
 
 
@@ -222,7 +226,7 @@ LinkText LinkText():
 	|
 	<LBRACKET> href = HyperLink() [description = Text() { href.setText(description); }] (<RBRACKET> | End()) { return href; }
 	|
-	<LBRACKET> <STRING> { string = token.image; } (<RBRACKET> | End()) { return new LinkText().setHref(string).setText(new Text().setValue(string)); }
+	<LBRACKET> <STRING> { string = token.image; } (<RBRACKET> | End()) { return new LinkText().setHref(string).setText(new Text(string)); }
 }
 
 
@@ -230,9 +234,9 @@ LinkText HyperLink():
 {
 }
 {
-	<HTTPSTRING> { return new LinkText().setHref(token.image).setText(new Text().setValue(token.image)); }
+	<HTTPSTRING> { return new LinkText().setHref(token.image).setText(new Text(token.image)); }
 	|
-	<WIKIWORD> { return new LinkText().setHref(token.image).setText(new Text().setValue(token.image)); }
+	<WIKIWORD> { return new LinkText().setHref(token.image).setText(new Text(token.image)); }
 }
 
 Text Text():
@@ -242,11 +246,11 @@ Text Text():
 {
 	{ StringBuffer stringBuffer = new StringBuffer(); } 
 	(<STRING> { stringBuffer.append(token.image); stringBuffer.append(" "); } )+ 
-	{ return new Text().setValue(stringBuffer.toString().replaceAll(" $", "")); }
+	{ return new Text(stringBuffer.toString().replaceAll(" $", "")); }
 	|
-	<NOT> <STRING> { return new Text().setValue(token.image); }
+	<NOT> <STRING> { return new Text(token.image); }
 	|
-	"'" { return new Text().setValue("'"); }
+	"'" { return new Text("'"); }
 }
 
 BreakLine BreakLine():

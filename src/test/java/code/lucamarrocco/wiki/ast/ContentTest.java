@@ -6,16 +6,22 @@ import junit.framework.*;
 public class ContentTest extends TestCase {
 	private BodyDeclaration BODY_DECLARATION = new Text();
 
+	private Content content;
+
 	public void testAddBodyDeclaration() {
-		Content content = new Content();
 		content.addBodyDeclaration(BODY_DECLARATION);
 		assertTrue(content.iterator().hasNext());
 		assertTrue(content.iterator().next().equals(BODY_DECLARATION));
 	}
 
-	public void testDefaultContent() {
-		Content content = new Content();
+	@Override
+	protected void setUp() throws Exception {
+		content = new Content() {
+			public <A> void accept(code.lucamarrocco.wiki.ast.Visitor<A> visitor, A arg) {}
+		};
+	}
 
+	public void testDefaultContent() {
 		assertNotNull(content);
 
 		assertTrue(content instanceof Node);

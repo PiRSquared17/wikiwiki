@@ -6,17 +6,8 @@ import junit.framework.*;
 public class DecoratedTextTest extends TestCase {
 	private Text TEXT = new Text();
 
-	public void testDecoratedText() {
-		DecoratedText decoratedText = new DecoratedText() {};
-
-		assertNotNull(decoratedText);
-		assertTrue(decoratedText instanceof Node);
-		assertTrue(decoratedText instanceof DecoratedText);
-		assertTrue(decoratedText instanceof BodyDeclaration);
-	}
-
 	public void testDecoratedNormalText() {
-		DecoratedText decoratedText = new DecoratedNormalText();
+		DecoratedText decoratedText = new DecoratedNormalText(TEXT);
 
 		assertNotNull(decoratedText);
 		assertTrue(decoratedText instanceof Node);
@@ -26,7 +17,7 @@ public class DecoratedTextTest extends TestCase {
 	}
 
 	public void testDecoratedBoldText() {
-		DecoratedText decoratedText = new DecoratedBoldText();
+		DecoratedText decoratedText = new DecoratedBoldText(TEXT);
 
 		assertNotNull(decoratedText);
 		assertTrue(decoratedText instanceof Node);
@@ -35,18 +26,8 @@ public class DecoratedTextTest extends TestCase {
 		assertTrue(decoratedText instanceof BodyDeclaration);
 	}
 
-	public void testDecoratedBoldItalicText() {
-		DecoratedText decoratedText = new DecoratedBoldItalicText();
-
-		assertNotNull(decoratedText);
-		assertTrue(decoratedText instanceof Node);
-		assertTrue(decoratedText instanceof DecoratedText);
-		assertTrue(decoratedText instanceof DecoratedBoldItalicText);
-		assertTrue(decoratedText instanceof BodyDeclaration);
-	}
-
 	public void testDecoratedItalicText() {
-		DecoratedText decoratedText = new DecoratedItalicText();
+		DecoratedText decoratedText = new DecoratedItalicText(TEXT);
 
 		assertNotNull(decoratedText);
 		assertTrue(decoratedText instanceof Node);
@@ -56,19 +37,12 @@ public class DecoratedTextTest extends TestCase {
 	}
 
 	public void testDecoratedUnderlineText() {
-		DecoratedText decoratedText = new DecoratedUnderlineText();
+		DecoratedText decoratedText = new DecoratedUnderlineText(TEXT);
 
 		assertNotNull(decoratedText);
 		assertTrue(decoratedText instanceof Node);
 		assertTrue(decoratedText instanceof DecoratedText);
 		assertTrue(decoratedText instanceof DecoratedUnderlineText);
 		assertTrue(decoratedText instanceof BodyDeclaration);
-	}
-
-	public void testText() {
-		DecoratedText decoratedText = new DecoratedText() {};
-
-		assertEquals(decoratedText, decoratedText.setText(TEXT));
-		assertEquals(TEXT, decoratedText.getText());
 	}
 }
