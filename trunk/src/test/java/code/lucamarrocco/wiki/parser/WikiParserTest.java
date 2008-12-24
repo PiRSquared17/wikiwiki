@@ -6,61 +6,75 @@ import java.io.*;
 
 import junit.framework.*;
 import code.lucamarrocco.wiki.ast.*;
+import code.lucamarrocco.wiki.html.*;
 
 /** @author Luca Marrocco */
 public class WikiParserTest extends TestCase {
-	private void assertWikiParserFile(String fileName) throws Exception {
-		InputStream wikiContent = getClass().getClassLoader().getResourceAsStream(fileName);
+	private void assertWiki(String fileName) throws Exception {
+		InputStream wikiContent = getClass().getClassLoader().getResourceAsStream(fileName.concat(".txt"));
+		InputStream htmlContent = getClass().getClassLoader().getResourceAsStream(fileName.concat(".html"));
 		assertNotNull(wikiContent);
 		Content content = parse(wikiContent);
 		assertNotNull(content);
+		StringBuffer stringBuffer = new StringBuffer();
+		content.accept(new StringBufferVisitor(), stringBuffer);
+		assertEquals(slurp(htmlContent).replaceAll("\r", "").replaceAll("\n", ""), stringBuffer.toString());
+	}
+
+	public static String slurp(InputStream in) throws IOException {
+		StringBuffer out = new StringBuffer();
+		byte[] b = new byte[4096];
+		for (int n; (n = in.read(b)) != -1;) {
+			out.append(new String(b, 0, n));
+		}
+		return out.toString();
 	}
 
 	public void testWikiParserBold() throws Exception {
-		assertWikiParserFile("WikiBold.txt");
+		assertWiki("WikiBold");
 	}
 
 	public void testWikiParserBoldItalic() throws Exception {
-		assertWikiParserFile("WikiBoldItalic.txt");
+		assertWiki("WikiBoldItalic");
 	}
 
 	public void testWikiParserContent() throws Exception {
-		assertWikiParserFile("WikiContent.txt");
+		assertWiki("WikiContent");
 	}
 
 	public void testWikiParserDecoratedText() throws Exception {
-		assertWikiParserFile("WikiDecoratedText.txt");
+		assertWiki("WikiDecoratedText");
 	}
 
 	public void testWikiParserItalic() throws Exception {
-		assertWikiParserFile("WikiItalic.txt");
+		assertWiki("WikiItalic");
 	}
 
 	public void testWikiParserOrderedList() throws Exception {
-		assertWikiParserFile("WikiOrderedList.txt");
+		assertWiki("WikiOrderedList");
 	}
 
 	public void testWikiParserTitle1() throws Exception {
-		assertWikiParserFile("WikiTitle1.txt");
+		assertWiki("WikiTitle1");
 	}
 
 	public void testWikiParserTitle2() throws Exception {
-		assertWikiParserFile("WikiTitle2.txt");
+		assertWiki("WikiTitle2");
 	}
 
 	public void testWikiParserTitle3() throws Exception {
-		assertWikiParserFile("WikiTitle3.txt");
+		assertWiki("WikiTitle3");
 	}
 
 	public void testWikiParserUnderline() throws Exception {
-		assertWikiParserFile("WikiUnderline.txt");
+		assertWiki("WikiUnderline");
 	}
 
 	public void testWikiParserUnorderedList() throws Exception {
-		assertWikiParserFile("WikiUnorderedList.txt");
+		assertWiki("WikiUnorderedList");
 	}
 
 	public void testWikiParserWikiWord() throws Exception {
-		assertWikiParserFile("WikiWikiWord.txt");
+		assertWiki("WikiWikiWord");
 	}
 }
