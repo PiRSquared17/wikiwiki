@@ -1,6 +1,6 @@
 package code.lucamarrocco.wiki.engine;
 
-import junit.framework.TestCase;
+import junit.framework.*;
 
 public class WikiListTest extends TestCase {
 	public void assertHtml(String html, String content) throws Exception {

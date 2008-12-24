@@ -1,6 +1,6 @@
 package code.lucamarrocco.wiki.ast;
 
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
 
 import org.apache.commons.logging.*;

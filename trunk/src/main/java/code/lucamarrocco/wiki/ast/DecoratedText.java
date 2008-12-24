@@ -1,6 +1,5 @@
 package code.lucamarrocco.wiki.ast;
 
-import org.apache.commons.logging.*;
 
 /** @author Luca Marrocco */
 public abstract class DecoratedText extends Content {
