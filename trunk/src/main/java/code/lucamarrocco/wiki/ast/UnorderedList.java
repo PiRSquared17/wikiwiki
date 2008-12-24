@@ -1,6 +1,5 @@
 package code.lucamarrocco.wiki.ast;
 
-
 /** @author Luca Marrocco */
 public class UnorderedList extends List {
 

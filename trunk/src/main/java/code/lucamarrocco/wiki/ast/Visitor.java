@@ -3,7 +3,7 @@ package code.lucamarrocco.wiki.ast;
 /** @author Luca Marrocco */
 public interface Visitor<A> {
 	void visit(Content content, A arg);
-	
+
 	void visit(BreakLine breakLine, A arg);
 
 	void visit(DecoratedBoldText decoratedText, A arg);

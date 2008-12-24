@@ -71,7 +71,7 @@ public class WikiParserSomeTest extends TestCase {
 		ListItem listItem = (ListItem) unorderedList.iterator().next();
 		DecoratedNormalText normalText = (DecoratedNormalText) listItem.iterator().next();
 		Text text = (Text) normalText.iterator().next();
-		
+
 		assertThat(text.toString(), is(equalTo("item")));
 	}
 
@@ -109,7 +109,7 @@ public class WikiParserSomeTest extends TestCase {
 		ListItem listItem = (ListItem) orderedList.iterator().next();
 		DecoratedNormalText normalText = (DecoratedNormalText) listItem.iterator().next();
 		Text text = (Text) normalText.iterator().next();
-		
+
 		assertThat(text.toString(), is(equalTo("item")));
 	}
 

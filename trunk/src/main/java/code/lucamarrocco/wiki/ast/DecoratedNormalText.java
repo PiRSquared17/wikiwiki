@@ -2,7 +2,7 @@ package code.lucamarrocco.wiki.ast;
 
 /** @author Luca Marrocco */
 public class DecoratedNormalText extends DecoratedText {
-	
+
 	public DecoratedNormalText(Text text) {
 		super(text);
 	}
