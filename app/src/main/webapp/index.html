@@ -1,12 +1,16 @@
 <html>
-<head>
-<title>Wiki Wiki App</title>
-<script src="http://www.google.com/jsapi"></script>
-<script>google.load("jquery", "1.3.2");</script>
-</head>
-<body>
-    <div id="o"></div>
-    <textarea id="i"></textarea>
-    <button onclick="javascript:$.post('wiki',{wiki:$('#i').val()},function(data){$('#o').html(data);});">wiki</button>
-</body>
+    <head>
+        <title>Wiki Wiki App</title>
+        <script src="http://www.google.com/jsapi"></script>
+        <script>google.load("jquery", "1.3.2");</script>
+    </head>
+    <body>
+        <div>
+            <textarea id="i" cols="60" rows="18"></textarea>
+        </div>
+        <div>
+            <button onclick="javascript:$.post('wiki',{wiki:$('#i').val()},function(data){$('#o').html(data);});">wiki</button>
+        </div>
+        <div id="o"></div>
+    </body>
 </html>
